@@ -1,0 +1,4 @@
+1. Check-in, Commit, Synchronize, Work on your code, Mark as Merged (if necessary),  Resolve conflicts (if necessary)
+2. Check-in, commit, Work on your code, Mark as Merged (if necessary),  Resolve conflicts (if necessary)
+3. True.
+4. True.
