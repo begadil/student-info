@@ -1,4 +1,16 @@
-1. Check-in, Commit, Synchronize, Work on your code, Mark as Merged (if necessary),  Resolve conflicts (if necessary)
-2. Check-in, commit, Work on your code, Mark as Merged (if necessary),  Resolve conflicts (if necessary)
-3. True.
-4. True.
+1. check-in
+    commit
+    synchronize
+    work on your code
+    mark as merged (if necessary)
+    resolve conflicts (if necessary)
+
+2. check-in
+    commit
+    mark as merged (if necessary)
+    work on your code
+    resolve conflicts (if necessary)
+
+3. true... because other members of your team should know that you are working...
+
+4. true
