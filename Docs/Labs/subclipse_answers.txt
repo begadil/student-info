@@ -7,10 +7,10 @@
 
 2. check-in
     commit
-    mark as merged (if necessary)
     work on your code
+    mark as merged (if necessary)
     resolve conflicts (if necessary)
 
-3. true... because other members of your team should know that you are working...
+3. true... because other members of your team should know that you are working... That's right, because every member should know about your ideas. 
 
 4. true
