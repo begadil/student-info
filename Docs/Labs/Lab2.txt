@@ -1,0 +1,14 @@
+Actor1: 
+	dean's office
+4 use cases: 
+	- can edit information about students
+	- can add information about students
+	- can filter information about students and get result as table
+	- can get graph of statistics
+
+Actor2:
+	reception
+4 use cases:
+	- can edit information about students
+	- can add information about students
+	- can remove information about students
