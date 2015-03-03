@@ -1,0 +1,27 @@
+I) 3.2.1.1.2 (M) The SDU Timetabling shall allow to users to enter
+Classes,Examinations,Scheduling Assistant sections of application, even user didn't enter
+profile data then it will be registered as a guest.
+
+	Everybody can enter like a guest, that's why there is no meaning to register
+
+II) 3.2.1.2.4 (M) The SDU Timetabling shall allow to press on “Print” button in order to print
+page after pressing “Next” button
+	
+	This is not testable. Because in our country not everybody has printer that works with wi-fi
+
+
+III) 3.2.2.2 Meetings 
+	
+	Not feasible, because in our SDU is not allowed to get such kind of some information for students 
+
+IV) 3.2.2.3.11 (M) The SDU Timetabling shall allow the user to select room
+features(projector,computers, audio/video recording and so on)
+	
+	In our SDU to get such kind of things we need permission and sign from dean's office.
+
+V) 3.2.2.4 Room Availability 
+		
+	Where is the connection between room and timetable
+
+
+Mereke, Akbota, Arman, Serik, Alikhan
