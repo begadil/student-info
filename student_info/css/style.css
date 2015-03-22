@@ -1,0 +1,187 @@
+
+/*********** GENERAL STYLES ***************/
+*{
+	margin: 0;
+	padding: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    transition: .25s all;
+}
+
+body{
+	font: 100%/1.5em Verdana, Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+}
+
+.container{
+    width: 100%;
+    margin: 0 auto;
+    min-width: 550px;
+}
+
+.container .cols{
+    float: left;
+    margin: 0 0 1em;
+    padding: 0 1em;
+    text-align: center;
+}
+
+.container .cols.col-1 { width: 8.333333333%; }
+.container .cols.col-2 { width: 16.666666666%; }
+.container .cols.col-3 { width: 25%; }
+.container .cols.col-4 { width: 33.333333332%; }
+.container .cols.col-5 { width: 41.666666665%; }
+.container .cols.col-6 { width: 50%; }
+.container .cols.col-7 { width: 58.333333331%; }
+.container .cols.col-8 { width: 66.666666664%; }
+.container .cols.col-9 { width: 75%; }
+.container .cols.col-10 { width: 83.33333333%; }
+.container .cols.col-11 { width: 91.666666663%; }
+.container .cols.col-12 { width: 100%; }
+
+.container:before,
+.container:after,
+.row:before,
+.row:after,
+.clear:before, 
+.clear:after {
+    content: " ";
+    display: table;
+}
+
+.container:after,
+.row:after,
+.clear:after {
+    clear: both;
+}
+/***************************************/
+
+
+/********** LOGIN HTML *************/
+.login_body{
+    background: #2c3e50;
+}
+
+#login_form{
+    width: 400px;
+    height: 280px;
+    background: #fff;
+    margin: 150px auto 0;
+    border-radius: 5px;
+}
+
+#colors_bar{
+    width: 400px;
+    height: 5px;
+    background: url(../img/colors_bar.png) no-repeat;
+}
+
+.inputs{
+    padding-top: 50px;
+    text-align: center;
+}
+
+.inputs input{
+    width: 280px;
+    height: 50px;
+    border: 0;
+    background: #f3f5f6;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 16px;
+    box-sizing: content-box;
+    padding-left: 20px;
+}
+
+.inputs button{
+    width: 300px;
+    height: 50px;
+    background: #2ecc71;
+    border: 0;
+    border-radius: 5px;
+    color: #fff;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 16px;
+    box-shadow: 0 2px 0 #2ab766;
+    cursor: pointer;
+}
+/***************************************/
+
+
+/*********** INDEX HTML ***************/
+#header{
+    background: #f1f1f1;
+    height: 100px;
+}
+
+
+#header .logo{
+    width: 300px;
+    display: inline-block;
+    height: 50px;
+    background: red;
+    margin-top: 25px;
+    float: left;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#header .logo:hover{
+    width: 296px;
+    margin: 26px 2px 2px 2px;
+}
+
+#header .nav{
+    list-style: none;
+    display: inline-block;
+    float: right;
+    margin-top: 25px;
+}
+
+#header .nav li{
+    display: inline-block;
+    background: #141414;
+    padding: 15px;
+}
+
+#content{
+    overflow: hidden;
+}
+
+#search{
+    background: #d2d2d2;
+    padding-bottom: 10000px;
+	margin-bottom: -10000px;
+}
+
+#search .search_input{
+    height: 80px;
+    background: #afafaf;
+    margin: 0 -1em;
+}
+
+#search .search_input input{
+    display: inline-block;
+    width: 60%;
+    height: 30px;
+    border: 0;
+    border-radius: 5px;
+    margin-top: 25px;
+    color: rgba(0, 0, 0, .5);
+    padding: 10px;
+}
+
+#result{
+    background: #a2a2a2;
+    padding-bottom: 10000px;
+	margin-bottom: -10000px;
+}
+
+#footer{
+    background: #252525;
+    height: 50px;
+}
+/***************************************/
