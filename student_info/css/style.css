@@ -1,5 +1,5 @@
 
-/*********** GENERAL STYLES ***************/
+/******************************* GENERAL STYLES *******************************/
 *{
 	margin: 0;
 	padding: 0;
@@ -56,10 +56,9 @@ body{
 .clear:after {
     clear: both;
 }
-/***************************************/
+/************************************************************************/
 
-
-/********** LOGIN HTML *************/
+/******************************* LOGIN.HTML *******************************/
 .login_body{
     background: #2c3e50;
 }
@@ -94,6 +93,7 @@ body{
     font-size: 16px;
     box-sizing: content-box;
     padding-left: 20px;
+    color: rgba(0, 0, 0, .5);
 }
 
 .inputs button{
@@ -121,63 +121,36 @@ body{
 	padding-top: 5px;
 	display: none; 
 }
+/************************************************************************/
 
-/***************************************/
 
-
-/*********** INDEX HTML ***************/
-#header{
-    background: #f1f1f1;
-    height: 100px;
+/******************************* INDEX.HTML *******************************/
+.index{
+	min-height: 643px;
+	overflow: hidden;	
 }
 
-
-#header .logo{
-    width: 300px;
-    display: inline-block;
-    height: 50px;
-    background: red;
-    margin-top: 25px;
-    float: left;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-#header .logo:hover{
-    width: 296px;
-    margin: 26px 2px 2px 2px;
-}
-
-#header .nav{
-    list-style: none;
-    display: inline-block;
-    float: right;
-    margin-top: 25px;
-}
-
-#header .nav li{
-    display: inline-block;
-    background: #141414;
-    padding: 15px;
-}
-
-#content{
-    overflow: hidden;
-}
-
-#search{
+.index #search{
     background: #d2d2d2;
+    -webkit-box-shadow: 0 5px 20px rgba(0,0,0,.75);
+    -moz-box-shadow: 0 5px 20px rgba(0,0,0,.75);
+    box-shadow: 0 5px 20px rgba(0,0,0,.75);
+    margin: 0 -1em;
     padding-bottom: 10000px;
 	margin-bottom: -10000px;
+	background: rgba(44, 62, 80, .8);
 }
 
-#search .search_input{
-    height: 80px;
-    background: #afafaf;
-    margin: 0 -1em;
+.index #search .logo{
+	background: rgb(44, 62, 80);
+	height: 75px;
 }
 
-#search .search_input input{
+.index #search .search_input{
+	
+}
+
+.index #search .search_input input{
     display: inline-block;
     width: 60%;
     height: 30px;
@@ -188,14 +161,33 @@ body{
     padding: 10px;
 }
 
-#result{
-    background: #a2a2a2;
-    padding-bottom: 10000px;
+.index #main_page{
+    margin: 0 -1em;
 	margin-bottom: -10000px;
+	padding-bottom: 10000px;
 }
 
-#footer{
-    background: #252525;
-    height: 50px;
+.index #main_page .nav{
+    list-style-type: none;
+    height: 70px;
+    padding-top: 15px;
+    padding-right: 5px;
+    float: right;
 }
-/***************************************/
+
+.index #main_page .nav li{
+    display: inline-block;
+    padding: 10px;
+    background: #d1d1d1;
+    cursor: pointer;
+}
+
+.index #main_page .nav li:hover{
+    background: #a1a1a1;
+}
+
+.index #main_page .nav li a{
+    text-decoration: none;
+    color: #000;
+}
+/************************************************************************/
