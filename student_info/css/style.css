@@ -108,6 +108,20 @@ body{
     box-shadow: 0 2px 0 #2ab766;
     cursor: pointer;
 }
+
+.inputs button:hover{
+    background: #2ab766;
+}
+
+#email_password_error p{
+    color: rgba(229, 43, 80, .8);
+}
+
+#email_password_error{
+	padding-top: 5px;
+	display: none; 
+}
+
 /***************************************/
 
 
