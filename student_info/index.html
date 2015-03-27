@@ -10,7 +10,6 @@
 				data:{"function":'check_session'},
 				cache:false,
 				success:function(res){
-					window.alert(res);
 					if(res == "not ok"){
 						window.location.href = "login.html";
 					}
@@ -28,6 +27,7 @@
     <div class="container">
     
     	<div class="row index">
+    	
     		<div class="cols col-3">
     			<div id="search">
     				<div class="logo">LOGO</div>
@@ -36,14 +36,52 @@
     				</div>
     			</div>
     		</div>
+    		
     		<div class="cols col-9">
     			<div id="main_page">
-    				<ul class="nav">
-			        	<li><a href="#">settings</a></li>
-			            <li><a href="javascript:sign_out()">sign out</a></li>
-			        </ul>
+    				<div class="row">
+    					<div class="cols col-12">
+    						<ul class="nav">
+					        	<li><a href="#">settings</a></li>
+					            <li><a href="javascript:sign_out()">sign out</a></li>
+					        </ul>
+    					</div>
+    				</div>
+    				<div class="row">
+    					<div class="cols col-12">
+    						<div id="result">
+    							<table class="table table-condensed">
+    								<thead>
+    									<tr>
+	    									<td>seka1</td>
+	    									<td>seka2</td>
+	    									<td>seka3</td>
+    									</tr>
+    								</thead>
+    								<tbody>
+    									<tr>
+    										<td>seka</td>
+    										<td>seka</td>
+    										<td>seka</td>
+    									</tr>
+    									<tr>
+    										<td>seka</td>
+    										<td>seka</td>
+    										<td>seka</td>
+    									</tr>
+    									<tr>
+    										<td>seka</td>
+    										<td>seka</td>
+    										<td>seka</td>
+    									</tr>
+    								</tbody>
+    							</table>
+    						</div>
+    					</div>
+    				</div>
     			</div>
     		</div>
+    		
     	</div>
    
     </div>

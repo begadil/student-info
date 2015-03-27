@@ -14,7 +14,7 @@
 			$q_n = mysql_num_rows($q);
 			if($q_n > 0) {
 				session_start();
-				$_SESSION['email'] = $email;
+				$_SESSION['mail'] = $email;
 				echo "ok";
 			}
 			else {
@@ -27,15 +27,15 @@
 		elseif ($function == "sign_out"){
 			
 			session_start();
-			echo $_SESSION['email'];
 			if(session_destroy()){
 				echo "ok";
 			}
 		}
 		
 		elseif ($function == "check_session"){
-			echo session_status();
-			if(session_status() == 1){
+			session_start();
+			
+			if(!(isset($_SESSION['mail']) && $_SESSION['mail'] != '')){
 				echo "not ok";
 			}
 			else {

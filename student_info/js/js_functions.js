@@ -31,7 +31,6 @@ function sign_out(){
 		data:{"function":'sign_out'},
 		cache:false,
 		success:function(res){
-			window.alert(res);
 			if(res == "ok"){
 				window.location.href = "./login.html";
 			}
