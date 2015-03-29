@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script>
@@ -13,6 +13,9 @@
 					if(res == "not ok"){
 						window.location.href = "login.html";
 					}
+					else{
+						$("#index-container").css("display","block");
+					}
 				}
 			});
 		};
@@ -25,7 +28,7 @@
 </head>
 <body>
    
-    <div class="container">
+    <div class="container" id="index-container">
     
     	<div class="row index">
     	
@@ -33,7 +36,24 @@
     			<div id="search">
     				<div class="logo">LOGO</div>
     				<div class="search_input">
-    					<input type="text" id="search_text" />
+    					<ul>
+    						<li>
+    							<input type="text" id="search_text" placeholder="enter id or name/surname" onkeyup="search('text')">
+    						</li>
+    						<li>
+    							<div class="radio">
+    								<input type="radio" name="gender" value="male" id="male" onchange="search('radio-gender')">
+    								<label for="male">male</label>
+    							</div>
+    							<div class="radio">
+    								<input type="radio" name="gender" value="female" class="radio" id="female" onchange="search('radio-gender')">
+    								<label for="female">female</label>
+    							</div>
+    						</li>
+    						<li></li>
+    						<li></li>
+    						<li></li>
+    					</ul>
     				</div>
     			</div>
     		</div>
@@ -57,7 +77,9 @@
     									<li><a href="#"><i class="fa fa-pencil-square-o"></i> edit</a></li>
     								</ul>
     							</div>
-    							there will be result of search
+    							<div id="result">
+    								there will be search result
+    							</div>
     						</div>
     					</div>
     				</div>

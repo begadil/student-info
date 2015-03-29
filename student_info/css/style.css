@@ -9,8 +9,15 @@
     transition: .25s all;
 }
 
+@font-face{
+    font-family: 'OpenSans-Regular';
+    src: url(../fonts/open-sans/OpenSans-Regular.ttf);
+    font-weight: normal;
+    font-style: normal;
+}
+
 body{
-	font: 100%/1.5em Verdana, Arial, sans-serif;
+	font: 100%/1.5em 'OpenSans-Regular', Verdana, Arial, sans-serif;
 	margin: 0;
 	padding: 0;
 }
@@ -129,6 +136,11 @@ button{
 
 
 /******************************* INDEX.HTML *******************************/
+
+#index-container{
+	display: none;
+}
+
 .index{
 	min-height: 643px;
 	overflow: hidden;	
@@ -150,19 +162,38 @@ button{
 	height: 75px;
 }
 
-.index #search .search_input{
-	
+.index #search .search_input input{
+    margin-bottom: 10px;
 }
 
-.index #search .search_input input{
+.index #search .search_input input[type="text"]{
     display: inline-block;
-    width: 60%;
+    width: 50%;
     height: 30px;
     border: 0;
     border-radius: 5px;
     margin-top: 25px;
     color: rgba(0, 0, 0, .5);
     padding: 10px;
+}
+
+.index #search .search_input .radio{
+    position: relative;
+  	display: inline-block;
+  	margin-right: 10px;
+}
+
+.index #search .search_input .radio label{
+    min-height: 20px;
+  	padding-left: 20px;
+  	margin-bottom: 0;
+  	font-weight: normal;
+  	cursor: pointer;
+}
+
+.index #search .search_input .radio input[type="radio"]{
+  position: absolute;
+  margin-top: 6px;
 }
 
 .index #main_page{
@@ -222,12 +253,16 @@ button{
 }
 
 .index #main_page #result_box #result_buttons ul li a{
-    color: rgba(0, 0, 0, .7);
+    color: #000;
     text-decoration: none;
 }
 
 .index #main_page #result_box #result_buttons ul li a:hover{
     text-decoration: underline;
+}
+
+.index #main_page #result_box #result{
+    color: #000;
 }
 
 /************************************************************************/
