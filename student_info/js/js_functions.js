@@ -37,4 +37,41 @@ function sign_out(){
 		}
 	});
 }
+
+function search(type){
+	
+	if(type == "text"){
+		$text = $("#search_text").val();
+		if($text.trim().length > 0){
+			$.ajax({
+				type:"POST",
+				url:"./php/php_functions.php?",
+				data:{"function":'search', "type":type, "text":$text},
+				cache:false,
+				success:function(res){
+					$("#result").html(res);
+				}
+			});
+		}
+		else{
+			$("#result").html("there will be search result");
+		}
+	}
+	
+	else if(type == "radio-gender"){
+		$radioGender = $('input[name=gender]');
+		$gender = $radioGender.filter(':checked').val();
+		
+		$.ajax({
+			type:"POST",
+			url:"./php/php_functions.php?",
+			data:{"function":'search', "type":type, "radio-gender":$gender},
+			cache:false,
+			success:function(res){
+				$("#result").html(res);
+			}
+		});
+	}
+	
+}
 /************************************************************************/

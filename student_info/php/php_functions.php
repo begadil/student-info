@@ -42,6 +42,54 @@
 				echo "ok";
 			}
 		}
+		
+		elseif ($function == "search"){
+			$type = $_REQUEST['type'];
+			
+			if($type == "text"){
+				$text = $_REQUEST[$type];
+				$q = mysql_query("select * from student where name_kz like '%$text%' or 
+															  surname_kz like '%$text%' or 
+															  fathername_kz like '%$text%' or 
+															  name_en like '%$text%' or
+															  surname_en like '%$text%'");
+				$q_n = mysql_num_rows($q);
+				if($q_n > 0){
+					while($a = mysql_fetch_array($q)){
+						echo $a['name_en']." ".$a['surname_en'];
+					}
+				}
+				else{
+					$q = mysql_query("select * from sdu_info where sdu_id like '%$text%'");
+					$q_n = mysql_num_rows($q);
+					if($q_n > 0){
+						while($a = mysql_fetch_array($q)){
+							$q1 = mysql_query("select * from student where sdu_info_id = '$a[id]'");
+							$a1 = mysql_fetch_array($q1);
+							echo $a1['name_en']." ".$a1['surname_en']." ".$a['sdu_id'];
+						}
+					}
+					else{
+						echo "there is no such student";
+					}
+				}
+			}
+			
+			else if($type == "radio-gender"){
+				$gender = $_REQUEST[$type];
+				$q = mysql_query("select * from student where gender = '$gender'");
+				$q_n = mysql_num_rows($q);
+				if($q_n > 0){
+					while($a = mysql_fetch_array($q)){
+						echo $a['name_en']." ".$a['surname_en'];
+					}
+				}
+				else{
+					echo "there is no such student";
+				}
+			}
+			
+		}
 		/************************************************************************/
 			
 	}
