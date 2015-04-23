@@ -1,6 +1,6 @@
 <?php
 
-	include("connection_to_db.php");
+	include("connection.php");
 
 	if(isset($_REQUEST['function'])){
 		$function = $_REQUEST['function'];
@@ -14,7 +14,7 @@
 			$q_n = mysql_num_rows($q);
 			if($q_n > 0) {
 				session_start();
-				$_SESSION['mail'] = $email;
+				$_SESSION['email'] = $email;
 				echo "ok";
 			}
 			else {
