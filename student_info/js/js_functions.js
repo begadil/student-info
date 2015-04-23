@@ -1,29 +1,33 @@
 /**
- * All js functions (ajax)
+ * All js functions
  */
 
-/******************************* LOGIN.HTML *******************************/
+/******************************* LOGIN PAGE *******************************/
 function email_password_check(){
+	
 	$email = $("#email").val();
 	$password = $("#password").val();
+	
 	$.ajax({
 		type:"POST",
 		url:"./php/php_functions.php?",
 		data:{"function":'email_password_check', "email":$email, "password":$password},
 		cache:false,
 		success:function(res){
+			window.alert(res);
 			if(res == "ok"){
-				window.location.href = "./index.html";
+				window.location.href = "./index.php";
 			}
 			else{
-				document.getElementById("email_password_error").style.display = "block";
+				document.getElementById("err_mess").style.display = "block";
 			}
 		}
 	});
 }
 /************************************************************************/
 
-/******************************* INDEX.HTML *******************************/
+/******************************* INDEX PAGE *******************************/
+/*
 function sign_out(){
 	$.ajax({
 		type:"POST",
@@ -73,5 +77,5 @@ function search(type){
 		});
 	}
 	
-}
+}*/
 /************************************************************************/
