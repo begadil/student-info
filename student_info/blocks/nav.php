@@ -1,37 +1,19 @@
-<div id="sidebar-wrapper">
-	seka
-	<ul class="sidebar-nav">
-		<li class="sidebar-brand">
-			<a href="index.php">
-				<strong>Admin Page</strong>
-			</a>
-		</li>
-		<li>
-			<a href="members.php">Club Members</a>
-		</li>
-		<li>
-			<a href="news_and_events.php">News & Events</a>
-		</li>
-		<li>
-			<a href="carousel.php">Carousel</a>
-		</li>
-		<li>
-			<a href="lessons.php">Lessons</a>
-		</li>
-		<li>
-			<a href="comments.php">Comments</a>
-		</li>
-		<li>
-			<a href="schedule.php">Schedule</a>
-		</li>
-		<li>
-			<a href="gallery.php">Gallery</a>
-		</li>
-		<li>
-			<a href="settings.php">Settings</a>
-		</li>
-		<li>
-			<a href="logout.php">Logout</a>
-		</li>
-	</ul>
-</div>
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="index.php">STUDENT INFO</a>
+		</div>
+		<div class="collapse navbar-collapse navbar-right">
+			<ul class="nav navbar-nav">
+				<?php 
+					if($session_id == 'admin@gmail.com'){
+						echo "<li><a href='admin.php'>admin</a></li>";
+					}
+				?>
+				<li>
+					<a href="blocks/logout.php">logout</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>

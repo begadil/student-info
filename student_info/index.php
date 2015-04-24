@@ -18,10 +18,15 @@
     <link href='http://fonts.googleapis.com/css?family=Ubuntu:400,700' rel='stylesheet' type='text/css'>
 </head>
 <body>
+
+	<?php 
+		include("blocks/nav.php");
+	?>
+
 	<div id="wrapper">
         
-		<?php
-			include("blocks/nav.php");
+		<?php 
+			include("blocks/right.php");
 		?>
 
         <div id="page-content-wrapper">
@@ -31,10 +36,15 @@
 						<div id="hide_show">
 							<a href="#menu-toggle" class="btn btn-default" id="menu-toggle"><i class="fa fa-th-list fa-2x"></i></a>
 						</div>
-                        <h1>Hello Admin</h1>
-                        <p>
-							Here you can edit information about club members and add, remove or edit news & events and you can select news or events which will be shown on main page's carousel
-						</p>
+                        
+                        
+                        <div class="row res">
+                        	<div class="col-lg-9">
+                        		<div id="result">
+                        			no data found
+                        		</div>
+                        	</div>
+                        </div>
                         
                     </div>
                 </div>
@@ -46,12 +56,37 @@
 	<script src="js/bootstrap.min.js"></script>
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script type="text/javascript" src="js/js_functions.js"></script>
+	
    	
    	<script>
 	    $("#menu-toggle").click(function(e) {
 	        e.preventDefault();
 	        $("#wrapper").toggleClass("toggled");
 	    });
+	    function show_result(){
+	    	var name = $("#search_name").val().trim();
+	    	var surname = $("#search_surname").val().trim();
+	    	var sdu_id = $("#search_sdu_id").val().trim();
+	    	
+			if(name == "" && surname == "" && sdu_id == ""){
+				$("#result").html("no data found");
+			}
+			else{
+				$.ajax({
+					type:"POST",
+					url:"php/php_functions.php?",
+					data:{"function":'search', 
+						  "search_name":name,
+						  "search_surname":surname,
+						  "search_sdu_id":sdu_id},
+					cache:false,
+					success:function(res){
+						if(res=="")$("#result").html("no data found");
+						else $("#result").html(res);
+					}
+				});
+			}
+	    }
     </script>
 </body>
 </html>

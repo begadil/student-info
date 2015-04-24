@@ -7,3 +7,18 @@
 body{
 	font-family: 'Ubuntu', sans-serif;
 }
+
+#wrapper{
+	margin-top: 50px;
+}
+
+#sidebar-wrapper h3{
+	text-align: center;
+	color: #fff;
+	margin-top: 25px;
+	margin-bottom: 25px;
+}
+
+.res{
+	margin-top: 50px;
+}

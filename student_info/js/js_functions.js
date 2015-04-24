@@ -14,7 +14,6 @@ function email_password_check(){
 		data:{"function":'email_password_check', "email":$email, "password":$password},
 		cache:false,
 		success:function(res){
-			window.alert(res);
 			if(res == "ok"){
 				window.location.href = "./index.php";
 			}
@@ -27,6 +26,7 @@ function email_password_check(){
 /************************************************************************/
 
 /******************************* INDEX PAGE *******************************/
+
 /*
 function sign_out(){
 	$.ajax({
