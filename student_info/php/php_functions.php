@@ -96,6 +96,8 @@
 			$min_gpa = $_REQUEST['search_min_gpa'];
 			$max_gpa = $_REQUEST['search_max_gpa'];
 			
+			$family_members_count = $_REQUEST['search_family_member_count'];
+			
 			if(
 					($sdu_id == "" && 
 					 $faculty == 0 && 
@@ -108,7 +110,8 @@
 					 $max_gpa == "") && 
 					($republic == 0 && 
 					 $region == 0 && 
-					 $city == 0)){
+					 $city == 0) &&
+					($family_members_count == "")){
 				$query = "select * from student where ";
 				
 				if($name != ""){
@@ -130,7 +133,14 @@
 				}
 			}
 			
-			elseif($name == "" && $surname == "" && $gender == "" && $republic == 0 && $region == 0 && $city == 0){
+			elseif(
+					($name == "" && 
+					 $surname == "" && 
+					 $gender == "") && 
+					($republic == 0 && 
+					 $region == 0 && 
+					 $city == 0) &&
+					($family_members_count == "")){
 				
 				if($course == 0){
 					$query = "select st.* from student as st, sdu_info as si where st.sdu_info_id = si.id and gpa between $min_gpa and $max_gpa ";
@@ -192,7 +202,8 @@
 					 $grant_type == "" && 
 					 $stipend == "" && 
 					 $min_gpa == "" &&
-					 $max_gpa == "")){
+					 $max_gpa == "") &&
+					($family_members_count == "")){
 				if($address_type == "home"){
 					$query = "select st.* from student as st, address as ad where st.home_address_id = ad.id and ";
 				}
