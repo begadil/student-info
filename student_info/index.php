@@ -4,6 +4,7 @@
 		header ("Location: login.php");
 	}
 	$session_id=$_SESSION['email'];
+	include("php/connection.php");
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -59,16 +60,47 @@
 	
    	
    	<script>
+   	
 	    $("#menu-toggle").click(function(e) {
 	        e.preventDefault();
 	        $("#wrapper").toggleClass("toggled");
 	    });
+	    
 	    function show_result(){
 	    	var name = $("#search_name").val().trim();
 	    	var surname = $("#search_surname").val().trim();
+			var gender = "";
+			if($('input[name=search_gender]:checked').val() != null){
+				gender = $('input[name=search_gender]:checked').val();
+			}
+
+			var address_type = $('input[name=search_address_type]:checked').val();
+			var republic = $("#republic").val();
+			var region = $("#region").val();
+			var city = $("#city").val();
+			
 	    	var sdu_id = $("#search_sdu_id").val().trim();
+	    	var faculty = $("#faculty").val();
+			var department = $("#department").val();
+			var course = $("#course").val();
+			var group = $("#group").val();
+			var grant_type = $("#grant_type").val();
+			var stipend = $('input[name=search_stipend]:checked').val();
+			var min_gpa = $("#min_gpa").val();
+			var max_gpa = $("#max_gpa").val();
 	    	
-			if(name == "" && surname == "" && sdu_id == ""){
+	    	
+			if(name == "" && 
+			   surname == "" && 
+			   sdu_id == "" && 
+			   gender == "" && 
+			   republic == 0 && 
+			   region == 0 && 
+			   city == 0 && 
+			   faculty == 0 && 
+			   department == 0 &&
+			   course == 0 &&
+			   group == 0){
 				$("#result").html("no data found");
 			}
 			else{
@@ -78,7 +110,16 @@
 					data:{"function":'search', 
 						  "search_name":name,
 						  "search_surname":surname,
-						  "search_sdu_id":sdu_id},
+						  "search_gender":gender,
+						  "search_sdu_id":sdu_id,
+						  "search_address_type":address_type,
+						  "search_republic":republic,
+						  "search_region":region,
+						  "search_city":city,
+						  "search_faculty":faculty,
+						  "search_department":department,
+						  "search_course":course,
+						  "search_group":group},
 					cache:false,
 					success:function(res){
 						if(res=="")$("#result").html("no data found");
@@ -86,6 +127,97 @@
 					}
 				});
 			}
+	    }
+
+	    function faculty_selected(){
+	    	var faculty = $("#faculty").val();
+	    	if(faculty > 0){
+	    		$.ajax({
+					type:"POST",
+					url:"php/php_functions.php?",
+					data:{"function":'get_department', 
+						  "faculty_id":faculty},
+					cache:false,
+					success:function(res){
+						$("#department").html(res);
+					}
+				});
+	    		show_result();
+		    }
+	    	
+	    }
+
+	    function department_selected(){
+	    	var department = $("#department").val();
+	    	if(department > 0){
+	    		$.ajax({
+					type:"POST",
+					url:"php/php_functions.php?",
+					data:{"function":'get_group', 
+						  "department_id":department,
+						  "course":0},
+					cache:false,
+					success:function(res){
+						$("#group").html(res);
+					}
+				});
+	    		show_result();
+		    }
+	    	
+	    }
+
+	    function course_selected(){
+	    	var department = $("#department").val();
+	    	var course = $("#course").val();
+	    	if(course > 0){
+	    		$.ajax({
+					type:"POST",
+					url:"php/php_functions.php?",
+					data:{"function":'get_group', 
+						  "department_id":department,
+						  "course":course},
+					cache:false,
+					success:function(res){
+						$("#group").html(res);
+					}
+				});
+	    		show_result();
+		    }
+	    	
+	    }
+
+	    function republic_selected(){
+	    	var republic = $("#republic").val();
+	    	if(republic > 0){
+	    		$.ajax({
+					type:"POST",
+					url:"php/php_functions.php?",
+					data:{"function":'get_region', 
+						  "republic_id":republic},
+					cache:false,
+					success:function(res){
+						$("#region").html(res);
+					}
+				});
+				show_result();
+		    }
+	    }
+
+	    function region_selected(){
+	    	var region = $("#region").val();
+	    	if(region > 0){
+	    		$.ajax({
+					type:"POST",
+					url:"php/php_functions.php?",
+					data:{"function":'get_city', 
+						  "region_id":region},
+					cache:false,
+					success:function(res){
+						$("#city").html(res);
+					}
+				});
+				show_result();
+		    }
 	    }
     </script>
 </body>
