@@ -91,8 +91,24 @@
 			$department = $_REQUEST['search_department'];
 			$course = $_REQUEST['search_course'];
 			$group = $_REQUEST['search_group'];
+			$grant_type = $_REQUEST['search_grant_type'];
+			$stipend = $_REQUEST['search_stipend'];
+			$min_gpa = $_REQUEST['search_min_gpa'];
+			$max_gpa = $_REQUEST['search_max_gpa'];
 			
-			if(($sdu_id == "" && $faculty == 0 && $department == 0 && $course == 0 && $group == 0) && ($republic == 0 && $region == 0 && $city == 0)){
+			if(
+					($sdu_id == "" && 
+					 $faculty == 0 && 
+					 $department == 0 && 
+					 $course == 0 && 
+					 $group == 0 && 
+					 $grant_type == "" && 
+					 $stipend == "" && 
+					 $min_gpa == "" &&
+					 $max_gpa == "") && 
+					($republic == 0 && 
+					 $region == 0 && 
+					 $city == 0)){
 				$query = "select * from student where ";
 				
 				if($name != ""){
@@ -115,11 +131,12 @@
 			}
 			
 			elseif($name == "" && $surname == "" && $gender == "" && $republic == 0 && $region == 0 && $city == 0){
+				
 				if($course == 0){
-					$query = "select st.* from student as st, sdu_info as si where st.sdu_info_id = si.id ";
+					$query = "select st.* from student as st, sdu_info as si where st.sdu_info_id = si.id and gpa between $min_gpa and $max_gpa ";
 				}
 				else{
-					$query = "select st.* from student as st, sdu_info as si where st.sdu_info_id = si.id and course = '$course' ";
+					$query = "select st.* from student as st, sdu_info as si where st.sdu_info_id = si.id and course = '$course' and gpa between $min_gpa and $max_gpa ";
 				}
 				
 				if($sdu_id != ""){
@@ -127,28 +144,55 @@
 				}
 				
 				if($faculty != 0){
-					if($query != "select st.* from student as st, sdu_info as si where st.sdu_info_id = si.id and " || $query != "select st.* from student as st, sdu_info as si where st.sdu_info_id = si.id and course = '$course' "){
+					if($query != "select st.* from student as st, sdu_info as si where st.sdu_info_id = si.id and gpa between $min_gpa and $max_gpa " || $query != "select st.* from student as st, sdu_info as si where st.sdu_info_id = si.id and course = '$course' and gpa between $min_gpa and $max_gpa "){
 						$query .= " and ";
 					}
 					$query .= " si.faculty_id = '$faculty' ";
 				}
 				
 				if($department != 0){
-					if($query != "select st.* from student as st, sdu_info as si where st.sdu_info_id = si.id and " || $query != "select st.* from student as st, sdu_info as si where st.sdu_info_id = si.id and course = '$course' "){
+					if($query != "select st.* from student as st, sdu_info as si where st.sdu_info_id = si.id and gpa between $min_gpa and $max_gpa " || $query != "select st.* from student as st, sdu_info as si where st.sdu_info_id = si.id and course = '$course' and gpa between $min_gpa and $max_gpa "){
 						$query .= " and ";
 					}
 					$query .= " si.department_id = '$department' ";
 				}
 				
 				if($group != 0){
-					if($query != "select st.* from student as st, sdu_info as si where st.sdu_info_id = si.id and " || $query != "select st.* from student as st, sdu_info as si where st.sdu_info_id = si.id and course = '$course' "){
+					if($query != "select st.* from student as st, sdu_info as si where st.sdu_info_id = si.id and gpa between $min_gpa and $max_gpa " || $query != "select st.* from student as st, sdu_info as si where st.sdu_info_id = si.id and course = '$course' and gpa between $min_gpa and $max_gpa "){
 						$query .= " and ";
 					}
 					$query .= " si.group_id = '$group' ";
 				}
+				
+				if($grant_type != ""){
+					if($query != "select st.* from student as st, sdu_info as si where st.sdu_info_id = si.id and gpa between $min_gpa and $max_gpa " || $query != "select st.* from student as st, sdu_info as si where st.sdu_info_id = si.id and course = '$course' and gpa between $min_gpa and $max_gpa "){
+						$query .= " and ";
+					}
+					$query .= " si.grant_type = '$grant_type' ";
+				}
+				
+				if($stipend != ""){
+					if($query != "select st.* from student as st, sdu_info as si where st.sdu_info_id = si.id and gpa between $min_gpa and $max_gpa " || $query != "select st.* from student as st, sdu_info as si where st.sdu_info_id = si.id and course = '$course' and gpa between $min_gpa and $max_gpa "){
+						$query .= " and ";
+					}
+					$query .= " si.stipend = '$stipend' ";
+				}
+
 			}
 			
-			elseif(($name == "" && $surname == "" && $gender == "") && ($sdu_id == "" && $faculty == 0 && $department == 0 && $course == 0 && $group == 0)){
+			elseif(
+					($name == "" && 
+					 $surname == "" && 
+					 $gender == "") && 
+					($sdu_id == "" && 
+					 $faculty == 0 && 
+					 $department == 0 && 
+					 $course == 0 && 
+					 $group == 0 &&
+					 $grant_type == "" && 
+					 $stipend == "" && 
+					 $min_gpa == "" &&
+					 $max_gpa == "")){
 				if($address_type == "home"){
 					$query = "select st.* from student as st, address as ad where st.home_address_id = ad.id and ";
 				}
@@ -175,13 +219,24 @@
 				}
 			}
 			
-			elseif(($sdu_id == "" || $faculty != 0 || $department != 0 || $course != 0 || $group != 0) || ($name != "" || $surname != "" || $gender != "") || ($republic != 0 || $region != 0 || $city != 0)){
+			elseif(
+					($sdu_id != "" || 
+					 $faculty != 0 || 
+					 $department != 0 || 
+					 $course != 0 || 
+					 $group != 0 ||
+					 $grant_type != "" ||
+					 $stipend != "" || 
+					 $min_gpa != "" ||
+					 $max_gpa != "") || 
+					($name != "" || $surname != "" || $gender != "") || 
+					($republic != 0 || $region != 0 || $city != 0)){
 				
 				if($address_type == "home"){
-					$query = "select st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id ";
+					$query = "select st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id and si.gpa between $min_gpa and $max_gpa ";
 				}
 				else{
-					$query = "select st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id ";
+					$query = "select st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id and si.gpa between $min_gpa and $max_gpa ";
 				}
 				
 				if($course != 0){
@@ -193,90 +248,110 @@
 				}
 				
 				if ($surname != ""){
-					if($query != "select st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id " || 
-					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id " ||
-					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id and si.course = '$course' " ||
-					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id and si.course = '$course' "){
+					if($query != "select st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id and si.gpa between $min_gpa and $max_gpa " || 
+					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id and si.gpa between $min_gpa and $max_gpa " ||
+					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id and si.gpa between $min_gpa and $max_gpa and si.course = '$course' " ||
+					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id and si.gpa between $min_gpa and $max_gpa and si.course = '$course' "){
 						$query .= " and ";
 					}
 					$query .= " st.surname_en like '%$surname%' ";
 				}
 				
 				if ($gender != ""){
-					if($query != "select st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id " || 
-					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id " ||
-					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id and si.course = '$course' " ||
-					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id and si.course = '$course' "){
+					if($query != "select st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id and si.gpa between $min_gpa and $max_gpa " || 
+					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id and si.gpa between $min_gpa and $max_gpa " ||
+					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id and si.gpa between $min_gpa and $max_gpa and si.course = '$course' " ||
+					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id and si.gpa between $min_gpa and $max_gpa and si.course = '$course' "){
 						$query .= " and ";
 					}
 					$query .= " gender = '$gender' ";
 				}
 				
 				if($sdu_id != ""){
-					if($query != "select st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id " || 
-					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id " ||
-					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id and si.course = '$course' " ||
-					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id and si.course = '$course' "){
+					if($query != "select st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id and si.gpa between $min_gpa and $max_gpa " || 
+					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id and si.gpa between $min_gpa and $max_gpa " ||
+					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id and and si.gpa between $min_gpa and $max_gpa si.course = '$course' " ||
+					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id and si.gpa between $min_gpa and $max_gpa and si.course = '$course' "){
 						$query .= " and ";
 					}
 					$query .= " si.sdu_id like '%$sdu_id%' ";
 				}
 				
 				if($faculty != 0){
-					if($query != "select st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id " || 
-					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id " ||
-					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id and si.course = '$course' " ||
-					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id and si.course = '$course' "){
+					if($query != "select st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id and si.gpa between $min_gpa and $max_gpa " || 
+					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id and si.gpa between $min_gpa and $max_gpa " ||
+					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id and si.gpa between $min_gpa and $max_gpa and si.course = '$course' " ||
+					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id and si.gpa between $min_gpa and $max_gpa and si.course = '$course' "){
 						$query .= " and ";
 					}
 					$query .= " si.faculty_id = '$faculty' ";
 				}
 				
 				if($department != 0){
-					if($query != "select st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id " || 
-					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id " ||
-					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id and si.course = '$course' " ||
-					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id and si.course = '$course' "){
+					if($query != "select st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id and si.gpa between $min_gpa and $max_gpa " || 
+					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id and si.gpa between $min_gpa and $max_gpa " ||
+					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id and si.gpa between $min_gpa and $max_gpa and si.course = '$course' " ||
+					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id and si.gpa between $min_gpa and $max_gpa and si.course = '$course' "){
 						$query .= " and ";
 					}
 					$query .= " si.department_id = '$department' ";
 				}
 				
 				if($group != 0){
-					if($query != "select st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id " || 
-					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id " ||
-					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id and si.course = '$course' " ||
-					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id and si.course = '$course' "){
+					if($query != "select st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id and si.gpa between $min_gpa and $max_gpa " || 
+					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id and si.gpa between $min_gpa and $max_gpa " ||
+					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id and si.gpa between $min_gpa and $max_gpa and si.course = '$course' " ||
+					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id and si.gpa between $min_gpa and $max_gpa and si.course = '$course' "){
 						$query .= " and ";
 					}
 					$query .= " si.group_id = '$group' ";
 				}
 				
+				if($grant_type != ""){
+					if($query != "select st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id and si.gpa between $min_gpa and $max_gpa " || 
+					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id and si.gpa between $min_gpa and $max_gpa " ||
+					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id and si.gpa between $min_gpa and $max_gpa and si.course = '$course' " ||
+					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id and si.gpa between $min_gpa and $max_gpa and si.course = '$course' "){
+						$query .= " and ";
+					}
+					$query .= " si.grant_type = '$grant_type' ";
+				}
+				
+				if($stipend != ""){
+					if($query != "select st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id and si.gpa between $min_gpa and $max_gpa " || 
+					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id and si.gpa between $min_gpa and $max_gpa " ||
+					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id and si.gpa between $min_gpa and $max_gpa and si.course = '$course' " ||
+					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id and si.gpa between $min_gpa and $max_gpa and si.course = '$course' "){
+						$query .= " and ";
+					}
+					$query .= " si.stipend = '$stipend' ";
+				}
+				
 				if($republic != 0){
-					if($query != "select st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id " || 
-					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id " ||
-					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id and si.course = '$course' " ||
-					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id and si.course = '$course' "){
+					if($query != "select st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id and si.gpa between $min_gpa and $max_gpa " || 
+					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id and si.gpa between $min_gpa and $max_gpa " ||
+					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id and si.gpa between $min_gpa and $max_gpa and si.course = '$course' " ||
+					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id and si.gpa between $min_gpa and $max_gpa and si.course = '$course' "){
 						$query .= " and ";
 					}
 					$query .= " ad.republic_id = '$republic' ";
 				}
 				
 				if($region != 0){
-					if($query != "select st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id " || 
-					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id " ||
-					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id and si.course = '$course' " ||
-					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id and si.course = '$course' "){
+					if($query != "select st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id and si.gpa between $min_gpa and $max_gpa " || 
+					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id and si.gpa between $min_gpa and $max_gpa " ||
+					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id and si.gpa between $min_gpa and $max_gpa and si.course = '$course' " ||
+					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id and si.gpa between $min_gpa and $max_gpa and si.course = '$course' "){
 						$query .= " and ";
 					}
 					$query .= " ad.region_id = '$region' ";
 				}
 				
 				if($city != 0){
-					if($query != "select st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id " || 
-					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id " ||
-					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id and si.course = '$course' " ||
-					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id and si.course = '$course' "){
+					if($query != "select st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id and si.gpa between $min_gpa and $max_gpa " || 
+					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id and si.gpa between $min_gpa and $max_gpa " ||
+					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id and si.gpa between $min_gpa and $max_gpa and si.course = '$course' " ||
+					   $query != "select st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id and si.gpa between $min_gpa and $max_gpa and si.course = '$course' "){
 						$query .= " and ";
 					}
 					$query .= " ad.city_id = '$city' ";
