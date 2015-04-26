@@ -22,9 +22,13 @@
 <body>
 
 	<?php 
-		include("blocks/admin/nav.php");
+		include("blocks/admin/admin_nav.php");
 	?>
 
+	<script src="js/jquery.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script type="text/javascript" src="js/js_functions.js"></script>
 </body>
 
 </html>
