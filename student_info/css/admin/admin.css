@@ -11,3 +11,7 @@ body{
 #admin_page{
 	margin-top: 70px;
 }
+
+#error, #success{
+	display: none;
+}
