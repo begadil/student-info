@@ -85,10 +85,19 @@
 			var course = $("#course").val();
 			var group = $("#group").val();
 			var grant_type = $("#grant_type").val();
-			var stipend = $('input[name=search_stipend]:checked').val();
-			var min_gpa = $("#min_gpa").val();
-			var max_gpa = $("#max_gpa").val();
-	    	
+			var stipend = "";
+			if($('input[name=search_stipend]:checked').val() != null){
+				stipend = $('input[name=search_stipend]:checked').val();
+			}
+			var min_gpa = 0;
+			if($("#min_gpa").val().trim() != ""){
+				min_gpa = $("#min_gpa").val().trim();
+			}
+			var max_gpa = 4;
+			if($("#max_gpa").val().trim() != ""){
+				max_gpa = $("#max_gpa").val().trim();
+			}
+
 	    	
 			if(name == "" && 
 			   surname == "" && 
@@ -100,7 +109,11 @@
 			   faculty == 0 && 
 			   department == 0 &&
 			   course == 0 &&
-			   group == 0){
+			   group == 0,
+			   grant_type == "",
+			   stipend == "",
+			   min_gpa == "",
+			   max_gpa == ""){
 				$("#result").html("no data found");
 			}
 			else{
@@ -119,7 +132,11 @@
 						  "search_faculty":faculty,
 						  "search_department":department,
 						  "search_course":course,
-						  "search_group":group},
+						  "search_group":group,
+						  "search_grant_type":grant_type,
+						  "search_stipend":stipend,
+						  "search_min_gpa":min_gpa,
+						  "search_max_gpa":max_gpa},
 					cache:false,
 					success:function(res){
 						if(res=="")$("#result").html("no data found");
