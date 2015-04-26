@@ -176,13 +176,25 @@
 			    	<div class="panel-heading" role="tab" id="headingFour">
 			      		<h4 class="panel-title">
 			        		<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-			          			other info
+			          			family
 			        		</a>
 			      		</h4>
 			    	</div>
-			    	<div id="#collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+			    	<div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
 			      		<div class="panel-body">
-			      			some texts
+			      			<div class="row">
+			      				<div class="col-lg-1"></div>
+			      				<form class="col-lg-9 form-horizontal" role="form">
+									<div class="form-group">
+										<label class="control-label">Family members count: </label>
+										<div class="col-lg-12">
+							  				<label class="radio-inline"><input type="radio" name="search_family" value = 'let3' onClick="show_result()"> ≤3 </label>
+											<label class="radio-inline"><input type="radio" name="search_family" value = 'bt3' onClick="show_result()"> >3 </label>
+										</div>
+									</div>
+								</form>
+			      				<div class="col-lg-2"></div>
+			      			</div>
 			      		</div>
 			    	</div>
 			  	</div>

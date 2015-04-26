@@ -98,6 +98,10 @@
 				max_gpa = $("#max_gpa").val().trim();
 			}
 
+			var family_members_count = "";
+			if($('input[name=search_family]:checked').val() != null){
+				family_members_count = $('input[name=search_family]:checked').val();
+			}
 	    	
 			if(name == "" && 
 			   surname == "" && 
@@ -109,11 +113,12 @@
 			   faculty == 0 && 
 			   department == 0 &&
 			   course == 0 &&
-			   group == 0,
-			   grant_type == "",
-			   stipend == "",
-			   min_gpa == "",
-			   max_gpa == ""){
+			   group == 0 &&
+			   grant_type == "" &&
+			   stipend == "" &&
+			   min_gpa == "" &&
+			   max_gpa == "" &&
+			   family_members_count == ""){
 				$("#result").html("no data found");
 			}
 			else{
@@ -136,7 +141,8 @@
 						  "search_grant_type":grant_type,
 						  "search_stipend":stipend,
 						  "search_min_gpa":min_gpa,
-						  "search_max_gpa":max_gpa},
+						  "search_max_gpa":max_gpa,
+						  "search_family_member_count":family_members_count},
 					cache:false,
 					success:function(res){
 						if(res=="")$("#result").html("no data found");
