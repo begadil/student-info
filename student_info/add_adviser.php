@@ -72,6 +72,11 @@
 									echo "</tr>";
 									$i++;
 								}
+								echo "<p align='center'>
+									      <button class='btn btn-info' onclick='add_adviser_modal()'>
+										      <i class='fa fa-plus'></i> add adviser
+										  </button>
+									  </p>";
 							}
 							else{
 								if($n==0){
@@ -83,11 +88,6 @@
 										  </button>
 									  </p>";
 							}
-							echo "<p align='center'>
-									      <button class='btn btn-info' onclick='add_adviser_modal()'>
-										      <i class='fa fa-plus'></i> add adviser
-										  </button>
-									  </p>";
 						?>
 					</div>
 	        	</div>
@@ -177,9 +177,9 @@
 								</div>
 							</div>
 					  	</div>
-					
+					</form>
 				</div>
-		  		</form>
+		  		
 				<div class="modal-footer">
 					<input type="submit" class="btn btn-success" value="Add" onclick="add_adviser()"/>
 					<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
