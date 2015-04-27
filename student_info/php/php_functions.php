@@ -414,6 +414,58 @@
 				}
 			}
 		}
+		
+		elseif ($function == "print_adviser"){
+			$q=mysql_query("select * from adviser");
+			$n=mysql_num_rows($q);
+			
+			if($n > 0){
+				echo "<table class='table table-hover table-condensed table-bordered'>";
+				echo "<thead>
+										<tr>
+											<th>#</th>
+											<th>Name & Surname</th>
+											<th>SDU ID</th>
+											<th>Email</th>
+											<th>Phone no</th>
+											<th>Group(s)</th>
+										</tr>
+									</thead>
+									<tbody>";
+				$i = 1;
+				while($a = mysql_fetch_array($q)){
+					echo "<tr onclick='edit_employee_modal($a[id])'>";
+					echo "<td>$i</td>
+					<td>$a[name] $a[surname]</td>
+					<td>$a[sdu_id]</td>
+					<td>$a[email]</td>
+					<td>$a[phone_no]</td>";
+					$q1 = mysql_query("select gr.* from adviser_group as ag, `group` as gr where ag.adviser_id = '$a[id]' and ag.group_id = gr.id");
+					$str = "";
+					while($a1 = mysql_fetch_array($q1)){
+						$str .= "<p>$a1[name]</p>";
+					}
+					echo "<td>$str</td>";
+					echo "</tr>";
+					$i++;
+				}
+			}
+			else{
+				if($n==0){
+					echo "<p align='center' style='padding:10px;'><span class='label label-warning'>no advisers</span></p>";
+				}
+				echo "<p align='center'>
+				        <button class='btn btn-info' onclick='add_adviser_modal()'>
+				    	    <i class='fa fa-plus'></i> add adviser
+						 </button>
+					 </p>";
+			}
+			echo "<p align='center'>
+			      <button class='btn btn-info' onclick='add_adviser_modal()'>
+			      <i class='fa fa-plus'></i> add adviser
+				 </button>
+				 </p>";
+		}
 	}
 
 ?>
