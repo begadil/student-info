@@ -384,6 +384,36 @@
 			}
 		}
 		/************************************************************************/
+		
+		/******************************* ADMIN PAGE *******************************/
+		
+		elseif($function == "add_adviser"){
+		
+			$name = $_REQUEST['name'];
+			$surname = $_REQUEST['surname'];
+			$adviser_sdu_id = $_REQUEST['adviser_sdu_id'];
+			$phone_no = $_REQUEST['phone_no'];
+			$email = $_REQUEST['email'];
+			$groups = $_REQUEST['groups'];
+			
+			$arr = explode('|', $groups);
+			
+			
+			$password = md5('aaa');
+			
+			$r = mysql_query("insert into user (email, password) values ('$email', '$password')");
+			if($r){
+				$user_id = mysql_insert_id();
+				$r = mysql_query("insert into adviser (name, surname, sdu_id, email, phone_no, user_id) values('$name', '$surname', '$adviser_sdu_id', '$email', '$phone_no', '$user_id'); ");
+				if($r){
+					$adviser_id = mysql_insert_id();
+					for($i = 0; $i < sizeof($arr); $i++){
+						mysql_query("insert into adviser_group (adviser_id, group_id) values('$adviser_id', '$arr[$i]')");
+					}
+					echo "ok";
+				}
+			}
+		}
 	}
 
 ?>

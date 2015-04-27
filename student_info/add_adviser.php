@@ -43,11 +43,35 @@
 					<div id="table">
 						<?php 
 							if($n > 0){
-								echo "<p align='center'>
-									      <button class='btn btn-info' onclick='add_adviser_modal()'>
-										      <i class='fa fa-plus'></i> add adviser
-										  </button>
-									  </p>";
+								echo "<table class='table table-hover table-condensed table-bordered'>";
+								echo "<thead>
+										<tr>
+											<th>#</th>
+											<th>Name & Surname</th>
+											<th>SDU ID</th>
+											<th>Email</th>
+											<th>Phone no</th>
+											<th>Group(s)</th>
+										</tr>
+									</thead>
+									<tbody>";
+								$i = 1;
+								while($a = mysql_fetch_array($q)){
+									echo "<tr onclick='edit_employee_modal($a[id])'>";
+									echo "<td>$i</td>
+											<td>$a[name] $a[surname]</td>
+											<td>$a[sdu_id]</td>
+											<td>$a[email]</td>
+											<td>$a[phone_no]</td>";
+									$q1 = mysql_query("select gr.* from adviser_group as ag, `group` as gr where ag.adviser_id = '$a[id]' and ag.group_id = gr.id");
+									$str = "";
+									while($a1 = mysql_fetch_array($q1)){
+										$str .= "<p>$a1[name]</p>";
+									}
+									echo "<td>$str</td>";
+									echo "</tr>";
+									$i++;
+								}
 							}
 							else{
 								if($n==0){
@@ -59,6 +83,11 @@
 										  </button>
 									  </p>";
 							}
+							echo "<p align='center'>
+									      <button class='btn btn-info' onclick='add_adviser_modal()'>
+										      <i class='fa fa-plus'></i> add adviser
+										  </button>
+									  </p>";
 						?>
 					</div>
 	        	</div>
@@ -115,8 +144,8 @@
 						
 						<div class="form-group">
 							<label class="col-lg-2 control-label">Group(s)</label>
-							<div class="col-lg-5">
-						  		<select id = "adviser_groups" class = "form-control">
+							<div class="col-lg-6">
+						  		<select id = "adviser_groups" class = "form-control" onchange = "adviser_add_groups()">
 						  			<option value = "">select</option>
 						  			<?php 
 						  				$q = mysql_query("select id, name from `group`");
@@ -126,8 +155,8 @@
 						  			?>
 						  		</select>
 							</div>
-							<div class="col-lg-5">
-								<div class="well" id="selected groups">
+							<div class="col-lg-4">
+								<div class="well" id="adviser_selected_groups">
 									no groups yet
 								</div>
 							</div>
@@ -180,9 +209,91 @@
 				return $(this).text() == "select"; 
 			}).attr('selected', true);
 			$("#adviser_sdu_id").val("");
-			$("#address").val("");
-			$("#phone_no").val("");
-			$("#tariff_rate").val("");
+			$("#adviser_phone_no").val("");
+			$("#adviser_email").val("");
+			adviser_groups_array = {};
+			$("#adviser_selected_groups").html("");
+			$("#adviser_selected_groups").append("no groups yet");
+		}
+
+		function add_adviser(){
+			var name = $("#adviser_name").val();
+			var surname = $("#adviser_surname").val();
+			var adviser_sdu_id = $("#adviser_sdu_id").val();
+			var phone_no = $("#adviser_phone_no").val();
+			var email = $("#adviser_email").val();
+
+			
+			if(name.length > 0 && 
+			   surname.length > 0 && 
+			   adviser_sdu_id.length > 0 && 
+			   phone_no.length > 0 && 
+			   email.length > 0 &&
+			   Object.keys(adviser_groups_array).length > 0){
+
+				var arr = "";
+				for (var i in adviser_groups_array) {
+					arr += i + "|";
+				}
+				arr = arr.substring(0, arr.length-1);
+
+				   
+				$.ajax({
+					type:"POST",
+					url:"php/php_functions.php?",
+					data:{"function":'add_adviser', 
+						  "name":name, 
+						  "surname":surname, 
+						  "adviser_sdu_id":adviser_sdu_id, 
+						  "phone_no":phone_no, 
+						  "email":email, 
+						  "groups":arr},
+					cache:false,
+					success:function(res){
+						if(res=="ok"){
+							initialize();
+							document.getElementById("success").style.display="block";
+							$.ajax({
+								type:"POST",
+								url:"ajax_methods.php?",
+								data:{"function":'print_adviser'},
+								cache:false,
+								success:function(res){
+									$("#table").html(res);
+								}
+							});
+						}
+					}
+				});
+			}
+			else{
+				document.getElementById("error").style.display="block";
+			}
+		}
+		
+		var adviser_groups_array = {};
+		function adviser_add_groups(){
+			var key = $("#adviser_groups option:selected").val();
+			var val = $("#adviser_groups option:selected").text();
+			adviser_groups_array[key] = val;
+			print_groups_to_div();
+		}
+
+		function print_groups_to_div(){
+			$("#adviser_selected_groups").html("");
+			$c = 0;
+			for (var i in adviser_groups_array) {
+				$("#adviser_selected_groups").append("<p><a href = 'javascript:remove_groups(" + i + ")'> " + adviser_groups_array[i] +" <i class='fa fa-close'></i></a> </p>");
+				$c = 1;
+			}
+			if($c == 0){
+				$("#adviser_selected_groups").append("no groups yet");
+			}
+		}
+
+		function remove_groups(key){
+			delete adviser_groups_array[key];
+			print_groups_to_div();
 		}
 	
 	</script>
