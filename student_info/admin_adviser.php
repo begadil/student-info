@@ -22,7 +22,7 @@
 <body>
 
 	<?php 
-		include("blocks/admin/add_adviser_nav.php");
+		include("blocks/admin/admin_adviser_nav.php");
 	?>
 
 	<div id="admin_page">
@@ -243,7 +243,7 @@
 						<div class="form-group">
 							<label class="col-lg-2 control-label">Group(s)</label>
 							<div class="col-lg-6">
-						  		<select id = "adviser_groups" class = "form-control" onchange = "adviser_add_groups()">
+						  		<select id = "adviser_groupsE" class = "form-control" onchange = "adviser_add_groupsE()">
 						  			<option value = "">select</option>
 						  			<?php 
 						  				$q = mysql_query("select id, name from `group`");
@@ -271,7 +271,7 @@
 						<div class="form-group" id="successE">
 							<div class="col-lg-12">
 						  		<div class='alert alert-success' role='alert'>
-									<p align='center'> <strong>employee has been succesfully added</strong> </p>
+									<p align='center'> <strong>employee has been succesfully changed</strong> </p>
 								</div>
 							</div>
 					  	</div>
@@ -280,8 +280,37 @@
 		  		
 				<div class="modal-footer">
 					<input type="submit" class="btn btn-success" value="Save" onclick="edit_adviser()"/>
-					<input type="submit" class="btn btn-danger" value="Remove" onclick="remove_adviser()"/>
+					<input type="submit" class="btn btn-danger" value="Remove" onclick="delete_adviser_modal()"/>
 		  		</div>
+				
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade bs-example-modal-sm" id="delete_adviser_modal" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+		  		<div class="modal-header bg-primary">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title" align="center"><strong>Are You Sure?</strong></h4>
+		  		</div>
+				
+				<div class="modal-body" id="er" style="display:none;" align="center">
+					<div class="form-group" style="min-height:15px;">
+						<p id="er_text"></p>
+					</div>
+				</div>
+		  	
+				<div class="modal-body" id="buttons">
+					<div class="form-group" style="min-height:15px;">
+						<div class="col-sm-12" align="center">
+							<button type="button" class="btn btn-success" onclick="remove_adviser()">Yes</button>
+							<button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+						</div>
+					</div>
+				</div>
 				
 			</div>
 		</div>
@@ -312,8 +341,42 @@
 			$("#add_adviser").modal('show');
 		}
 
+		function delete_adviser_modal(){
+			$("#delete_adviser_modal").modal('show');
+		}
+
+		function remove_adviser(){
+			$.ajax({
+				type:"POST",
+				url:"php/php_functions.php?",
+				data:{"function":'remove_adviser',
+					  'adviser_id':id},
+				cache:false,
+				success:function(res){
+					if(res == "ok"){
+						$("#delete_adviser_modal").modal('hide');
+						$("#edit_adviser").modal('hide');
+						$.ajax({
+							type:"POST",
+							url:"php/php_functions.php?",
+							data:{"function":'print_adviser'},
+							cache:false,
+							success:function(res){
+								$("#table").html("");
+								$("#table").html(res);
+								isEditable = false;
+							}
+						});
+					}
+				}
+			});
+		}
+		
+
 		function edit_adviser_modal(ID){
 			if(isEditable){
+				document.getElementById("successE").style.display="none";
+				document.getElementById("errorE").style.display="none";
 				id = ID;
 				$.ajax({
 					type:"POST",
@@ -331,9 +394,17 @@
 						$("#adviser_sdu_idE").val(array[2]);
 						$("#adviser_phone_noE").val(array[3]);
 						$("#adviser_emailE").val(array[4]);
-						$("#adviser_selected_groups").html("");
-						adviser_groups_array = {};
+						$("#adviser_selected_groupsE").html("");
 						
+						for (var member in adviser_groups_array){
+							delete adviser_groups_array[member];
+						}
+						
+						for (i = 5; i < array.length-1; i+=2){
+							adviser_groups_array[array[i]] = array[i+1];
+						}
+
+						print_groups_to_divE();
 					}
 				});
 				$("#edit_adviser").modal('show');
@@ -354,6 +425,65 @@
 			adviser_groups_array = {};
 			$("#adviser_selected_groups").html("");
 			$("#adviser_selected_groups").append("no groups yet");
+		}
+
+		function edit_adviser(){
+			var name = $("#adviser_nameE").val();
+			var surname = $("#adviser_surnameE").val();
+			var adviser_sdu_id = $("#adviser_sdu_idE").val();
+			var phone_no = $("#adviser_phone_noE").val();
+			var email = $("#adviser_emailE").val();
+
+			
+			if(name.length > 0 && 
+			   surname.length > 0 && 
+			   adviser_sdu_id.length > 0 && 
+			   phone_no.length > 0 && 
+			   email.length > 0 &&
+			   Object.keys(adviser_groups_array).length > 0){
+
+				var arr = "";
+				for (var i in adviser_groups_array) {
+					arr += i + "|";
+				}
+				arr = arr.substring(0, arr.length-1);
+
+				   
+				$.ajax({
+					type:"POST",
+					url:"php/php_functions.php?",
+					data:{"function":'edit_adviser',
+						  "adviser_id":id,
+						  "name":name, 
+						  "surname":surname, 
+						  "adviser_sdu_id":adviser_sdu_id, 
+						  "phone_no":phone_no, 
+						  "email":email, 
+						  "groups":arr},
+					cache:false,
+					success:function(res){
+						if(res=="ok"){
+							initialize();
+							document.getElementById("successE").style.display="block";
+							$.ajax({
+								type:"POST",
+								url:"php/php_functions.php?",
+								data:{"function":'print_adviser'},
+								cache:false,
+								success:function(res){
+									$("#table").html("");
+									$("#table").html(res);
+									$("#edit_adviser").modal('hide');
+									isEditable = false;
+								}
+							});
+						}
+					}
+				});
+			}
+			else{
+				document.getElementById("errorE").style.display="block";
+			}
 		}
 
 		function add_adviser(){
@@ -401,6 +531,7 @@
 								success:function(res){
 									$("#table").html("");
 									$("#table").html(res);
+									isEditable = false;
 								}
 							});
 						}
@@ -416,8 +547,20 @@
 		function adviser_add_groups(){
 			var key = $("#adviser_groups option:selected").val();
 			var val = $("#adviser_groups option:selected").text();
-			adviser_groups_array[key] = val;
+			if(adviser_groups_array[key] != val){
+				adviser_groups_array[key] = val;
+			}
 			print_groups_to_div();
+		}
+
+		function adviser_add_groupsE(){
+			var key = $("#adviser_groupsE option:selected").val();
+			var val = $("#adviser_groupsE option:selected").text();
+			adviser_groups_array[key] = val;
+			if(adviser_groups_array[key] != val){
+				adviser_groups_array[key] = val;
+			}
+			print_groups_to_divE();
 		}
 
 		function print_groups_to_div(){
@@ -432,9 +575,26 @@
 			}
 		}
 
+		function print_groups_to_divE(){
+			$("#adviser_selected_groupsE").html("");
+			$c = 0;
+			for (var i in adviser_groups_array) {
+				$("#adviser_selected_groupsE").append("<p><a href = 'javascript:remove_groupsE(" + i + ")'> " + adviser_groups_array[i] +" <i class='fa fa-close'></i></a> </p>");
+				$c = 1;
+			}
+			if($c == 0){
+				$("#adviser_selected_groupsE").append("no groups yet");
+			}
+		}
+
 		function remove_groups(key){
 			delete adviser_groups_array[key];
 			print_groups_to_div();
+		}
+
+		function remove_groupsE(key){
+			delete adviser_groups_array[key];
+			print_groups_to_divE();
 		}
 	
 	</script>

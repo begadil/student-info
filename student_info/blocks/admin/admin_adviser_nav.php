@@ -10,7 +10,7 @@
 				</li>
 			
 				<li>
-					<a href="#">add student</a>
+					<a href="admin_student.php">add student</a>
 				</li>
 				
 				<li>
