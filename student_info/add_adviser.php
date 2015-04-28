@@ -43,6 +43,9 @@
 					<div id="table">
 						<?php 
 							if($n > 0){
+								echo "<p class='text-right'>
+									<a href='javascript:edit_on_off()'><i class='fa fa-check'> enable edit command</i></a>
+								</p>";
 								echo "<table class='table table-hover table-condensed table-bordered'>";
 								echo "<thead>
 										<tr>
@@ -57,7 +60,7 @@
 									<tbody>";
 								$i = 1;
 								while($a = mysql_fetch_array($q)){
-									echo "<tr onclick='edit_employee_modal($a[id])'>";
+									echo "<tr onclick='edit_adviser_modal($a[id])'>";
 									echo "<td>$i</td>
 											<td>$a[name] $a[surname]</td>
 											<td>$a[sdu_id]</td>
@@ -72,6 +75,7 @@
 									echo "</tr>";
 									$i++;
 								}
+								echo "</table>";
 								echo "<p align='center'>
 									      <button class='btn btn-info' onclick='add_adviser_modal()'>
 										      <i class='fa fa-plus'></i> add adviser
@@ -189,15 +193,153 @@
 		</div>
 	</div>
 	
+	<div class="modal fade" id="edit_adviser" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+		  		<div class="modal-header bg-primary">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title" align="center"><strong>Edit Adviser</strong></h4>
+		  		</div>
+		  	
+				<div class="modal-body">
+					<form class="form-horizontal" role="form">
+					  	<div class="form-group">
+							<label class="col-lg-2 control-label">Name</label>
+							<div class="col-lg-10">
+						  		<input type="text" class="form-control" id="adviser_nameE" placeholder="Name"/>
+							</div>
+					  	</div>
+					  	
+						<div class="form-group">
+							<label class="col-lg-2 control-label">Surname</label>
+							<div class="col-lg-10">
+						  		<input type="text" class="form-control" id="adviser_surnameE" placeholder="Surname"/>
+							</div>
+					  	</div>
+					  	
+					  	<div class="form-group">
+							<label class="col-lg-2 control-label">SDU ID</label>
+							<div class="col-lg-10">
+						  		<input type="text" class="form-control" id="adviser_sdu_idE" placeholder="sdu id" />
+							</div>
+					  	</div>
+					  	
+					  	<div class="form-group">
+							<label class="col-lg-2 control-label">E-mail</label>
+							<div class="col-lg-10">
+						  		<input type="text" class="form-control" id="adviser_emailE" placeholder="ex: abc@example.com"/>
+							</div>
+					  	</div>
+
+						<div class="form-group">
+							<label class="col-lg-2 control-label">Phone no</label>
+							<div class="col-lg-10">
+						  		<input type="text" class="form-control" id="adviser_phone_noE" placeholder="ex: 87078373694"/>
+							</div>
+					  	</div>
+						
+						<div class="form-group">
+							<label class="col-lg-2 control-label">Group(s)</label>
+							<div class="col-lg-6">
+						  		<select id = "adviser_groups" class = "form-control" onchange = "adviser_add_groups()">
+						  			<option value = "">select</option>
+						  			<?php 
+						  				$q = mysql_query("select id, name from `group`");
+						  				while($a = mysql_fetch_array($q)){
+						  					echo "<option value = '$a[id]'>$a[name]</option>";
+						  				}
+						  			?>
+						  		</select>
+							</div>
+							<div class="col-lg-4">
+								<div class="well" id="adviser_selected_groupsE">
+									no groups yet
+								</div>
+							</div>
+					  	</div>
+						
+						<div class="form-group" id="errorE">
+							<div class="col-lg-12">
+						  		<div class='alert alert-danger' role='alert'>
+									<p align='center'> <strong>please, fill all the fields</strong> </p>
+								</div>
+							</div>
+					  	</div>
+						
+						<div class="form-group" id="successE">
+							<div class="col-lg-12">
+						  		<div class='alert alert-success' role='alert'>
+									<p align='center'> <strong>employee has been succesfully added</strong> </p>
+								</div>
+							</div>
+					  	</div>
+					</form>
+				</div>
+		  		
+				<div class="modal-footer">
+					<input type="submit" class="btn btn-success" value="Save" onclick="edit_adviser()"/>
+					<input type="submit" class="btn btn-danger" value="Remove" onclick="remove_adviser()"/>
+		  		</div>
+				
+			</div>
+		</div>
+	</div>
+	
 	<script src="js/jquery.js"></script>
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	
 	<script>
 
+		isEditable = false;
+		id = "";
+		
+		function edit_on_off(){
+			if(!isEditable){
+				isEditable = true;
+				$('a[href="javascript:edit_on_off()"]').html("<i class='fa fa-close'> disable edit command</i>");
+			}
+			else {
+				isEditable = false;
+				$('a[href="javascript:edit_on_off()"]').html("<i class='fa fa-check'> enable edit command</i>");
+			}
+		}
+
 		function add_adviser_modal(){
 			initialize();
 			$("#add_adviser").modal('show');
+		}
+
+		function edit_adviser_modal(ID){
+			if(isEditable){
+				id = ID;
+				$.ajax({
+					type:"POST",
+					url:"php/php_functions.php?",
+					data:{"function":'get_adviser',
+						  'adviser_id':id},
+					cache:false,
+					success:function(res){
+						var array = res.split("|");
+						$("#adviser_nameE").val(array[0]);
+						$("#adviser_surnameE").val(array[1]);
+						$("#adviser_groupsE option").filter(function() {
+							return $(this).text() == "select"; 
+						}).attr('selected', true);
+						$("#adviser_sdu_idE").val(array[2]);
+						$("#adviser_phone_noE").val(array[3]);
+						$("#adviser_emailE").val(array[4]);
+						$("#adviser_selected_groups").html("");
+						adviser_groups_array = {};
+						for(int i = 5; i < array.length; i++){
+							
+						}
+					}
+				});
+				$("#edit_adviser").modal('show');
+			}
 		}
 
 		function initialize(){
@@ -255,10 +397,11 @@
 							document.getElementById("success").style.display="block";
 							$.ajax({
 								type:"POST",
-								url:"ajax_methods.php?",
+								url:"php/php_functions.php?",
 								data:{"function":'print_adviser'},
 								cache:false,
 								success:function(res){
+									$("#table").html("");
 									$("#table").html(res);
 								}
 							});
