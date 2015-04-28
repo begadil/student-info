@@ -333,9 +333,7 @@
 						$("#adviser_emailE").val(array[4]);
 						$("#adviser_selected_groups").html("");
 						adviser_groups_array = {};
-						for(int i = 5; i < array.length; i++){
-							
-						}
+						
 					}
 				});
 				$("#edit_adviser").modal('show');

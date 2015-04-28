@@ -146,7 +146,10 @@
 					cache:false,
 					success:function(res){
 						if(res=="")$("#result").html("no data found");
-						else $("#result").html(res);
+						else {
+							$("#result").html("");
+							$("#result").html(res);
+						}
 					}
 				});
 			}
