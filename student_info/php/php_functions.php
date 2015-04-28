@@ -183,6 +183,7 @@
 				$d += 5;
 				$e += 5;
 			}
+			echo "ok";
 		}
 		
 		elseif($function == "print_student"){
@@ -261,9 +262,10 @@
 							echo "<td>$a2[repname],<br/>$a2[regname],<br/>$a2[cname],<br/>$a2[addr] $a2[homeno]</td>";
 							$i++;
 						}
-			
+						echo "</table>";
+						echo "<hr style='margin-top:40px; margin-bottom:40px;'/>";
 					}
-					echo "</table>";
+					
 				}
 			}
 			else{
