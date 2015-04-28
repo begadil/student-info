@@ -40,7 +40,7 @@
                         
                         
                         <div class="row res">
-                        	<div class="col-lg-9">
+                        	<div class="col-lg-12">
                         		<div id="result">
                         			no data found
                         		</div>
