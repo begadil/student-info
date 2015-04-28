@@ -53,6 +53,25 @@
 		
 		}
 		
+		elseif($function == "get_group1"){
+		
+			$department_id = $_REQUEST['department_id'];
+			$course = $_REQUEST['course'];
+			
+			if($department_id != 0){
+				$q = mysql_query("select * from `group` where department_id = '$department_id' and course = '$course'");
+			}
+			else{
+				$q = mysql_query("select * from `group` where course = '$course'");
+			}
+			
+			echo "<option value = '0'>group</option>";
+			while($a = mysql_fetch_array($q)){
+				echo "<option value = '$a[id]'>$a[name]</option>";
+			}
+		
+		}
+		
 		elseif($function == "get_region"){
 			
 			$republic_id = $_REQUEST['republic_id'];
