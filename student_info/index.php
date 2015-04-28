@@ -168,9 +168,8 @@
 						$("#department").html(res);
 					}
 				});
-	    		show_result();
 		    }
-	    	
+	    	show_result();
 	    }
 
 	    function department_selected(){
@@ -187,9 +186,8 @@
 						$("#group").html(res);
 					}
 				});
-	    		show_result();
 		    }
-	    	
+	    	show_result();
 	    }
 
 	    function course_selected(){
@@ -207,9 +205,8 @@
 						$("#group").html(res);
 					}
 				});
-	    		show_result();
 		    }
-	    	
+	    	show_result();
 	    }
 
 	    function republic_selected(){
@@ -225,8 +222,8 @@
 						$("#region").html(res);
 					}
 				});
-				show_result();
 		    }
+	    	show_result();
 	    }
 
 	    function region_selected(){
@@ -242,8 +239,8 @@
 						$("#city").html(res);
 					}
 				});
-				show_result();
 		    }
+	    	show_result();
 	    }
     </script>
 </body>
