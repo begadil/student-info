@@ -80,7 +80,7 @@
 											<tbody>";
 										
 										while($a = mysql_fetch_array($q)){
-											echo "<tr onclick='edit_adviser_modal($a[id])'>";
+											echo "<tr onclick='edit_student_modal($a[id])'>";
 											echo "<td>$i</td>
 											<td>$a[surname_en] $a[name_en]</td>
 											<td>$a[gender]</td>";
@@ -116,9 +116,9 @@
 											echo "<td>$a2[repname],<br/>$a2[regname],<br/>$a2[cname],<br/>$a2[addr] $a2[homeno]</td>";
 											$i++;
 										}
-										
+										echo "</table>";
+										echo "<hr style='margin-top:40px; margin-bottom:40px;'/>";
 									}
-									echo "</table>";
 								}
 							}
 							else{
@@ -841,6 +841,29 @@
 		</div>
 	</div>
 	
+	<div class="modal fade bs-example-modal-lg" id="edit_student" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+		  		<div class="modal-header bg-primary">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title" align="center"><strong>Edit Student</strong></h4>
+		  		</div>
+		  	
+				<div class="modal-body">
+					bla bla bla
+				</div>
+		  		
+				<div class="modal-footer">
+					<input type="submit" class="btn btn-success" value="Save" onclick="edit_student()"/>
+					<input type="submit" class="btn btn-danger" value="Remove" onclick="delete_student_modal()"/>
+		  		</div>
+				
+			</div>
+		</div>
+	</div>
+	
 	
 	<script src="js/jquery.js"></script>
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
@@ -849,6 +872,12 @@
 	
 	<script>
 
+		function edit_student_modal(ID){
+			if(isEditable){
+				$("#edit_student").modal('show');
+			}
+		}
+	
 		function add_fm(n){
 			var t = 'add_fm';
 			t += n;
@@ -1096,7 +1125,6 @@
 				stipend = $('input[name=stipend]:checked').val();
 			}
 
-			
 			if((name_kz.length > 0 &&
 				surname_kz.length > 0 &&
 				fathername_kz.length > 0 &&
@@ -1178,6 +1206,9 @@
 						}
 					}
 				});
+			}
+			else{
+				document.getElementById("error").style.display="block";
 			}
 		}
 
