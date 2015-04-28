@@ -177,7 +177,7 @@
 						<div class="form-group" id="success">
 							<div class="col-lg-12">
 						  		<div class='alert alert-success' role='alert'>
-									<p align='center'> <strong>employee has been succesfully added</strong> </p>
+									<p align='center'> <strong>adviser has been succesfully added</strong> </p>
 								</div>
 							</div>
 					  	</div>
@@ -271,7 +271,7 @@
 						<div class="form-group" id="successE">
 							<div class="col-lg-12">
 						  		<div class='alert alert-success' role='alert'>
-									<p align='center'> <strong>employee has been succesfully changed</strong> </p>
+									<p align='center'> <strong>adviser has been succesfully changed</strong> </p>
 								</div>
 							</div>
 					  	</div>

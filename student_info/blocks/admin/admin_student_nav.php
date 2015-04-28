@@ -6,11 +6,11 @@
 		<div class="collapse navbar-collapse navbar-right">
 			<ul class="nav navbar-nav">
 				<li>
-					<a href="admin_adviser.php">admin</a>
+					<a href="admin_adviser.php">add adviser</a>
 				</li>
 			
 				<li>
-					<a href="admin.php">add student</a>
+					<a href="admin.php">admin</a>
 				</li>
 				
 				<li>
