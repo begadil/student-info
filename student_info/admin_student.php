@@ -1068,18 +1068,18 @@
 			var fm_info = "";
 			for(var i = 0 ; i < fm_count; i++){
 				if(i == 0){
-					fm_info += $("#fm_type_of_affinity").val() + " | ";
-					fm_info += $("#fm_name").val() + " | ";
-					fm_info += $("#fm_surname").val() + " | ";
-					fm_info += $("#fm_study_info").val() + " | ";
-					fm_info += $("#fm_work_info").val() + " | ";
+					fm_info += $("#fm_type_of_affinity").val() + "|";
+					fm_info += $("#fm_name").val() + "|";
+					fm_info += $("#fm_surname").val() + "|";
+					fm_info += $("#fm_study_info").val() + "|";
+					fm_info += $("#fm_work_info").val() + "|";
 				}
 				else{
-					fm_info += $("#fm_type_of_affinity" + i).val() + " | ";
-					fm_info += $("#fm_name" + i).val() + " | ";
-					fm_info += $("#fm_surname" + i).val() + " | ";
-					fm_info += $("#fm_study_info" + i).val() + " | ";
-					fm_info += $("#fm_work_info" + i).val() + " | ";
+					fm_info += $("#fm_type_of_affinity" + i).val() + "|";
+					fm_info += $("#fm_name" + i).val() + "|";
+					fm_info += $("#fm_surname" + i).val() + "|";
+					fm_info += $("#fm_study_info" + i).val() + "|";
+					fm_info += $("#fm_work_info" + i).val() + "|";
 				}
 			}
 
@@ -1094,6 +1094,90 @@
 			var stipend = "";
 			if($('input[name=stipend]:checked').val() != null){
 				stipend = $('input[name=stipend]:checked').val();
+			}
+
+			
+			if((name_kz.length > 0 &&
+				surname_kz.length > 0 &&
+				fathername_kz.length > 0 &&
+				name_en.length > 0 &&
+				surname_en.length > 0 &&
+				gender.length > 0 &&
+				birthday.length > 0 &&
+				email.length > 0 &&
+				phone_no.length > 0) &&
+				(home_republic_id.length > 0 &&
+				home_region_id.length > 0 &&
+				home_city_id.length > 0 &&
+				home_address.length > 0 &&
+				home_home_no.length > 0 &&
+				current_republic_id.length > 0 &&
+				current_region_id.length > 0 &&
+				current_city_id.length > 0 &&
+				current_address.length > 0 &&
+				current_home_no.length > 0) &&
+				(fm_count.length > 0 &&
+				fm_info.length > 0) &&
+				(sdu_id.length > 0 &&
+				faculty_id.length > 0 &&
+				department_id.length > 0 &&
+				course.length > 0 &&
+				group_id.length > 0 &&
+				gpa.length > 0 &&
+				grant_type.length > 0 &&
+				stipend.length > 0)){
+				$.ajax({
+					type:"POST",
+					url:"php/php_functions.php?",
+					data:{"function":'add_student', 
+						  "name_kz":name_kz, 
+						  "surname_kz":surname_kz, 
+						  "fathername_kz":fathername_kz, 
+						  "name_en":name_en, 
+						  "surname_en":surname_en, 
+						  "gender":gender,
+						  "birthday":birthday,
+						  "email":email,
+						  "phone_no":phone_no,
+						  "home_republic_id":home_republic_id,
+						  "home_region_id":home_region_id,
+						  "home_city_id":home_city_id,
+						  "home_address":home_address,
+						  "home_home_no":home_home_no,
+						  "current_republic_id":current_republic_id,
+						  "current_region_id":current_region_id,
+						  "current_city_id":current_city_id,
+						  "current_address":current_address,
+						  "current_home_no":current_home_no,
+						  "fm_count":fm_count,
+						  "fm_info":fm_info,
+						  "sdu_id":sdu_id,
+						  "faculty_id":faculty_id,
+						  "department_id":department_id,
+						  "course":course,
+						  "group_id":group_id,
+						  "gpa":gpa,
+						  "grant_type":grant_type,
+						  "stipend":stipend},
+					cache:false,
+					success:function(res){
+						if(res=="ok"){
+							initialize();
+							document.getElementById("success").style.display="block";
+							$.ajax({
+								type:"POST",
+								url:"php/php_functions.php?",
+								data:{"function":'print_student'},
+								cache:false,
+								success:function(res){
+									$("#table").html("");
+									$("#table").html(res);
+									isEditable = false;
+								}
+							});
+						}
+					}
+				});
 			}
 		}
 
