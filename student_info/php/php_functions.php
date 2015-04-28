@@ -367,11 +367,10 @@
 					}
 					$query .= " ad.city_id = '$city' ";
 				}
-				
 			}
 			$q = mysql_query($query);
+			echo $query;
 			$q_n = mysql_num_rows($q);
-			
 			
 			if($q_n > 0){
 				echo "<table class='table table-hover table-condensed table-bordered'>";
@@ -425,6 +424,8 @@
 					$a2 = mysql_fetch_array($q2);
 						
 					echo "<td>$a2[repname],<br/>$a2[regname],<br/>$a2[cname],<br/>$a2[addr] $a2[homeno]</td>";
+					$i++;
+					break;
 				}
 			}
 			else{
