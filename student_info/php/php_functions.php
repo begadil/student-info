@@ -94,6 +94,50 @@
 				
 		}
 		
+		elseif($function == "edit_student"){
+			
+			$id = $_REQUEST['student_id'];
+			
+			$name_kz = $_REQUEST['name_kz'];
+			$surname_kz = $_REQUEST['surname_kz'];
+			$fathername_kz = $_REQUEST['fathername_kz'];
+			$name_en = $_REQUEST['name_en'];
+			$surname_en = $_REQUEST['surname_en'];
+			$gender = $_REQUEST['gender'];
+			$birthday = date('Y-d-m', strtotime($_REQUEST['birthday']));
+			$email = $_REQUEST['email'];
+			$phone_no = $_REQUEST['phone_no'];
+			
+			$sdu_id = $_REQUEST['sdu_id'];
+			$faculty_id = $_REQUEST['faculty_id'];
+			$gpa = $_REQUEST['gpa'];
+			$grant_type = $_REQUEST['grant_type'];
+			$stipend = $_REQUEST['stipend'];
+			
+			mysql_query("update student set name_kz = '$name_kz', 
+											surname_kz = '$surname_kz', 
+											fathername_kz = '$fathername_kz', 
+											name_en = '$name_en', 
+											surname_en = '$surname_en',
+											gender = '$gender', 
+											birthday = '$birthday',
+											email = '$email', 
+											phone_no = '$phone_no'
+											where id = '$id' ");
+			
+			$q = mysql_query("select sdu_info_id from student where id = '$id' ");
+			$a = mysql_fetch_array($q);
+			
+			mysql_query("update sdu_info set sdu_id = '$sdu_id',
+											 faculty_id = '$faculty_id',
+											 gpa = '$gpa',
+											 grant_type = '$grant_type',
+											 stipend = '$stipend'
+											 where id = '$a[sdu_info_id]' ");
+			echo "ok";
+			
+		}
+		
 		elseif($function == "add_student"){
 			
 			$name_kz = $_REQUEST['name_kz'];
@@ -226,7 +270,7 @@
 											<tbody>";
 			
 										while($a = mysql_fetch_array($q)){
-						echo "<tr onclick='edit_adviser_modal($a[id])'>";
+						echo "<tr onclick='edit_student_modal($a[id])'>";
 							echo "<td>$i</td>
 							<td>$a[surname_en] $a[name_en]</td>
 							<td>$a[gender]</td>";
@@ -731,6 +775,82 @@
 			echo "ok";
 		}
 		
+		elseif($function == "get_student"){
+			$student_id = $_REQUEST['student_id'];
+			$q = mysql_query("select * from student where id = '$student_id'");
+			$a = mysql_fetch_array($q);
+			$bd = explode('-', $a['birthday']);
+			$birthday = "$bd[2]-$bd[1]-$bd[0]";
+			
+			$res = "$a[name_kz]|$a[surname_kz]|$a[fathername_kz]|$a[name_en]|$a[surname_en]|$a[gender]|$birthday|$a[email]|$a[phone_no]|";
+			
+			$home_address_id = $a['home_address_id'];
+			$current_address_id = $a['current_address_id'];
+			$sdu_info_id = $a['sdu_info_id'];
+			
+			$q = mysql_query("select * from address where id = '$home_address_id'");
+			$a = mysql_fetch_array($q);
+			
+			$qq = mysql_query("select name from republic where id = '$a[republic_id]'");
+			$aa = mysql_fetch_array($qq);
+			$res .= "$aa[name]|";
+			
+			$qq = mysql_query("select name from region where id = '$a[region_id]'");
+			$aa = mysql_fetch_array($qq);
+			$res .= "$aa[name]|";
+			
+			$qq = mysql_query("select name from city where id = '$a[city_id]'");
+			$aa = mysql_fetch_array($qq);
+			$res .= "$aa[name]|$a[addr]|$a[home_no]|";
+			
+			
+			$q = mysql_query("select * from address where id = '$current_address_id'");
+			$a = mysql_fetch_array($q);
+				
+			$qq = mysql_query("select name from republic where id = '$a[republic_id]'");
+			$aa = mysql_fetch_array($qq);
+			$res .= "$aa[name]|";
+				
+			$qq = mysql_query("select name from region where id = '$a[region_id]'");
+			$aa = mysql_fetch_array($qq);
+			$res .= "$aa[name]|";
+				
+			$qq = mysql_query("select name from city where id = '$a[city_id]'");
+			$aa = mysql_fetch_array($qq);
+			$res .= "$aa[name]|$a[addr]|$a[home_no]|";
+			
+			$q = mysql_query("select count(*) as 'count' from family_member where student_id = '$student_id' ");
+			$a = mysql_fetch_array($q);
+			$res .= "$a[count]|";
+			
+			$q = mysql_query("select * from family_member where student_id = '$student_id' order by id desc");
+			while($a = mysql_fetch_array($q)){
+				$res .= "$a[type_of_affinity]|$a[name]|$a[surname]|$a[study_info]|$a[work_info]|";
+			}
+			
+			$q = mysql_query("select * from sdu_info where id = '$sdu_info_id' ");
+			$a = mysql_fetch_array($q);
+			$res .= "$a[sdu_id]|";
+			
+			$qq = mysql_query("select name from faculty where id = '$a[faculty_id]'");
+			$aa = mysql_fetch_array($qq);
+			$res .= "$aa[name]|";
+			
+			$qq = mysql_query("select name from department where id = '$a[department_id]'");
+			$aa = mysql_fetch_array($qq);
+			$res .= "$aa[name]|";
+			
+			$res .= "$a[course]|";
+			
+			$qq = mysql_query("select name from `group` where id = '$a[group_id]'");
+			$aa = mysql_fetch_array($qq);
+			$res .= "$aa[name]|$a[gpa]|$a[grant_type]|$a[stipend]|";
+			
+			
+			echo $res;
+				
+		}
+		
 		elseif($function == "get_adviser"){
 			$adviser_id = $_REQUEST['adviser_id'];
 			$q = mysql_query("select * from adviser where id = '$adviser_id'");
@@ -753,6 +873,20 @@
 			$b = mysql_query("delete from adviser_group where adviser_id = '$adviser_id'");
 			$c = mysql_query("delete from adviser where id = '$adviser_id'");
 			if($a && $b && $c){
+				echo "ok";
+			}
+		}
+		
+		elseif($function == "remove_student"){
+			$student_id = $_REQUEST['student_id'];
+			$q = mysql_query("select home_address_id, current_address_id, sdu_info_id from student where id = '$student_id' ");
+			$arr = mysql_fetch_array($q);
+			$a = mysql_query("delete from address where id = '$arr[home_address_id]'");
+			$b = mysql_query("delete from address where id = '$arr[current_address_id]'");
+			$c = mysql_query("delete from sdu_info where id = '$arr[sdu_info_id]'");
+			$d = mysql_query("delete from family_member where student_id = '$student_id'");
+			$e = mysql_query("delete from student where id = '$student_id'");
+			if($a && $b && $c && $d && $e){
 				echo "ok";
 			}
 		}
