@@ -1,0 +1,22 @@
+@CHARSET "UTF-8";
+
+*{
+	transition: .1s all;
+}
+
+body{
+	font-family: 'Ubuntu', sans-serif;
+}
+
+#adviser_page{
+	margin-top: 70px;
+	margin-bottom: 70px;
+}
+
+#pass_form{
+	margin-top: 30px;
+}
+
+#show_pass{
+	font-size:0.9em;
+}

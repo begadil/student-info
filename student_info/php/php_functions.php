@@ -231,6 +231,123 @@
 			echo "ok";
 		}
 		
+		elseif($function == "adviser_edit_password"){
+			$email = $_REQUEST['email'];
+			$old = md5($_REQUEST['old']);
+			$new = md5($_REQUEST['new']);
+			
+			$q = mysql_query("select * from user where email = '$email' and password = '$old' ");
+			$n = mysql_num_rows($q);
+			if($n > 0){
+				mysql_query("update user set password = '$new' where email = '$email'");
+				echo "ok";
+			}
+			else{
+				echo "not ok";
+			}
+			
+		}
+		
+		elseif($function == "add_student1"){
+				
+			$name_kz = $_REQUEST['name_kz'];
+			$surname_kz = $_REQUEST['surname_kz'];
+			$fathername_kz = $_REQUEST['fathername_kz'];
+			$name_en = $_REQUEST['name_en'];
+			$surname_en = $_REQUEST['surname_en'];
+			$gender = $_REQUEST['gender'];
+			$birthday = date('Y-d-m', strtotime($_REQUEST['birthday']));
+			$email = $_REQUEST['email'];
+			$phone_no = $_REQUEST['phone_no'];
+				
+				
+			$home_republic_id = $_REQUEST['home_republic_id'];
+			$home_region_id = $_REQUEST['home_region_id'];
+			$home_city_id = $_REQUEST['home_city_id'];
+			$home_address = $_REQUEST['home_address'];
+			$home_home_no = $_REQUEST['home_home_no'];
+				
+			$current_republic_id = $_REQUEST['current_republic_id'];
+			$current_region_id = $_REQUEST['current_region_id'];
+			$current_city_id = $_REQUEST['current_city_id'];
+			$current_address = $_REQUEST['current_address'];
+			$current_home_no = $_REQUEST['current_home_no'];
+				
+				
+				
+			$fm_count = $_REQUEST['fm_count'];
+			$fm_info = explode('|', $_REQUEST['fm_info']);
+				
+				
+			$sdu_id = $_REQUEST['sdu_id'];
+			
+			
+			$group_id = $_REQUEST['group_id'];
+			
+			$q = mysql_query("select * from `group` where id = '$group_id'");
+			$a = mysql_fetch_array($q);
+			$department_id = $a['department_id'];
+			$course = $a['course'];
+			$q = mysql_query("select * from department where id = '$department_id'");
+			$a = mysql_fetch_array($q);
+			$faculty_id = $a['faculty_id'];
+			
+			$gpa = $_REQUEST['gpa'];
+			$grant_type = $_REQUEST['grant_type'];
+			$stipend = $_REQUEST['stipend'];
+				
+			mysql_query("insert into address (republic_id, city_id, region_id, addr, home_no)
+			values ('$home_republic_id','$home_city_id','$home_region_id','$home_address','$home_home_no')");
+				
+			$home_address_id = mysql_insert_id();
+				
+			mysql_query("insert into address (republic_id, city_id, region_id, addr, home_no)
+			values ('$current_republic_id','$current_city_id','$current_region_id','$current_address','$current_home_no')");
+		
+			$current_address_id = mysql_insert_id();
+				
+			mysql_query("insert into sdu_info (sdu_id, faculty_id, department_id, course, group_id, gpa, grant_type, stipend)
+			values ('$sdu_id','$faculty_id','$department_id','$course','$group_id','$gpa','$grant_type','$stipend')");
+				
+			$sdu_info_id = mysql_insert_id();
+		
+			mysql_query("insert into student (name_kz, surname_kz, fathername_kz, name_en, surname_en,
+			gender, birthday, home_address_id, current_address_id,
+			sdu_info_id, email, phone_no)
+			values ('$name_kz','$surname_kz','$fathername_kz','$name_en','$surname_en',
+			'$gender','$birthday','$home_address_id','$current_address_id',
+			'$sdu_info_id','$email','$phone_no')");
+		
+			$student_id = mysql_insert_id();
+		
+			$a = 0;
+			$b = 1;
+			$c = 2;
+			$d = 3;
+			$e = 4;
+			for($i = 0; $i < $fm_count; $i++){
+		
+				mysql_query("insert into family_member (type_of_affinity,
+				name,
+				surname,
+				study_info,
+				work_info,
+				student_id)
+					values ('$fm_info[$a]',
+					'$fm_info[$b]',
+					'$fm_info[$c]',
+					'$fm_info[$d]',
+					'$fm_info[$e]',
+					'$student_id')");
+					$a += 5;
+					$b += 5;
+					$c += 5;
+					$d += 5;
+					$e += 5;
+			}
+			echo "ok";
+		}
+		
 		elseif($function == "print_student"){
 			$q=mysql_query("select * from student");
 			$n=mysql_num_rows($q);

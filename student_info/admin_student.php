@@ -123,7 +123,7 @@
 							}
 							else{
 								if($n==0){
-									echo "<p align='center' style='padding:10px;'><span class='label label-warning'>no advisers</span></p>";
+									echo "<p align='center' style='padding:10px;'><span class='label label-warning'>no students</span></p>";
 								}
 								echo "<p align='center'>
 									      <button class='btn btn-info' onclick='add_student_modal()'>
