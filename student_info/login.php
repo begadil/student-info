@@ -47,5 +47,33 @@
 
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script type="text/javascript" src="js/js_functions.js"></script>
+	<script>
+
+		function email_password_check(){
+			
+			$email = $("#email").val();
+			$password = $("#password").val();
+			
+			$.ajax({
+				type:"POST",
+				url:"./php/php_functions.php?",
+				data:{"function":'email_password_check', "email":$email, "password":$password},
+				cache:false,
+				success:function(res){
+					var array = res.split("|");
+					if(array[0] == "ok" && array[1] == "1"){
+						window.location.href = "./index.php";
+					}
+					else if(array[0] == "ok" && array[1] != "1"){
+						window.location.href = "./adviser.php";
+					}
+					else{
+						document.getElementById("err_mess").style.display = "block";
+					}
+				}
+			});
+		}
+	
+	</script>
 </body>
 </html>

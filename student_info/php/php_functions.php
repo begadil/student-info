@@ -15,7 +15,8 @@
 			if($q_n > 0) {
 				session_start();
 				$_SESSION['email'] = $email;
-				echo "ok";
+				$a = mysql_fetch_array($q);
+				echo "ok|$a[id]";
 			}
 			else {
 				echo "not ok";
