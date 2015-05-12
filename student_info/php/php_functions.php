@@ -442,6 +442,97 @@
 			}
 		}
 		
+		elseif($function == "get_graph_data"){
+			$query = $_REQUEST['query'];
+			$q = mysql_query($query);
+			$male = 0;
+			$female = 0;
+			
+			$eng = 0;
+ 			$phil = 0;
+ 			$law = 0;
+ 			$eco = 0;
+ 			
+ 			$h_array = array();
+ 			for($i = 0; $i < 18; $i++){
+ 				$h_array[] = 0;
+ 			}
+ 			$c_array = array();
+ 			for($i = 0; $i < 18; $i++){
+ 				$c_array[] = 0;
+ 			}
+ 			
+ 			$h_c_array = array();
+ 			for($i = 0; $i < 19; $i++){
+ 				$h_c_array[] = 0;
+ 			}
+ 			$c_c_array = array();
+ 			for($i = 0; $i < 19; $i++){
+ 				$c_c_array[] = 0;
+ 			}
+ 			
+ 			
+ 			$n = mysql_num_rows($q);
+ 			
+ 			$gpas = "|$n";
+ 			
+			while($a = mysql_fetch_array($q)){
+				if($a['gender'] == 'male'){
+					$male++;
+				}
+				else{
+					$female++;
+				}
+				
+				$sdu_info_id = $a['sdu_info_id'];
+				
+				$qq = mysql_query("select * from sdu_info where id = '$sdu_info_id'");
+				$aa = mysql_fetch_array($qq);
+				if($aa['faculty_id'] == '1'){
+					$eng++;
+				}
+				elseif($aa['faculty_id'] == '2'){
+					$phil++;
+				}
+				elseif($aa['faculty_id'] == '3'){
+					$law++;
+				}
+				else{
+					$eco++;
+				}
+				
+				$qq = mysql_query("select * from address where id = '$a[home_address_id]'");
+				$aa = mysql_fetch_array($qq);
+				$h_array[intval($aa['region_id'])]++;
+				$h_c_array[intval($aa['city_id'])]++;
+				
+				$qq = mysql_query("select * from address where id = '$a[current_address_id]'");
+				$aa = mysql_fetch_array($qq);
+				$c_array[intval($aa['region_id'])]++;
+				$c_c_array[intval($aa['city_id'])]++;
+				
+				$qq = mysql_query("select * from sdu_info where id = '$sdu_info_id'");
+				$aa = mysql_fetch_array($qq);
+				$gpas .= "|$a[name_en] $a[surname_en]|$aa[gpa]";
+			}
+			$res = "$male|$female|$eng|$phil|$law|$eco";
+			for($i = 1; $i < 18; $i++){
+				$res.="|$h_array[$i]";
+			}
+			for($i = 1; $i < 18; $i++){
+				$res.="|$c_array[$i]";
+			}
+			$res.=$gpas;
+			for($i = 1; $i < 19; $i++){
+				$res.="|$h_c_array[$i]";
+			}
+			for($i = 1; $i < 19; $i++){
+				$res.="|$c_c_array[$i]";
+			}
+			$res.="|";
+			echo $res;
+		}
+		
 		elseif ($function == "search"){
 			
 			$name = $_REQUEST['search_name'];
@@ -764,6 +855,7 @@
 				$q_n = mysql_num_rows($q);
 				
 				if($q_n > 0){
+					echo "$query|||";
 					echo "<table class='table table-hover table-condensed table-bordered'>";
 					echo "<thead>
 											<tr>
@@ -1010,8 +1102,8 @@
 			
 			if($n > 0){
 				echo "<p class='text-right'>
-									<a href='javascript:edit_on_off()'><i class='fa fa-check'> enable edit command</i></a>
-								</p>";
+						<a href='javascript:edit_on_off()'><i class='fa fa-check'> enable edit command</i></a>
+					  </p>";
 				echo "<table class='table table-hover table-condensed table-bordered'>";
 				echo "<thead>
 										<tr>
