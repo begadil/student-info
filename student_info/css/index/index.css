@@ -22,3 +22,16 @@ body{
 .res{
 	margin-top: 50px;
 }
+
+#clear_a{
+	margin-top: -15px;
+	display: none;
+}
+
+#clear_a a{
+	color: #9d9d9d;
+}
+
+#clear_a a:hover{
+	color: #fff;
+}

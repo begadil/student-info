@@ -37,8 +37,6 @@
 						<div id="hide_show">
 							<a href="#menu-toggle" class="btn btn-default" id="menu-toggle"><i class="fa fa-th-list fa-2x"></i></a>
 						</div>
-                        
-                        
                         <div class="row res">
                         	<div class="col-lg-12">
                         		<div id="result">
@@ -46,7 +44,6 @@
                         		</div>
                         	</div>
                         </div>
-                        
                     </div>
                 </div>
             </div>
@@ -65,8 +62,85 @@
 	        e.preventDefault();
 	        $("#wrapper").toggleClass("toggled");
 	    });
+
+	    function reset(){
+	    	$("#search_name").val("");
+	    	$("#search_surname").val("");
+	    	$('input[name=search_gender]').prop('checked', false);
+
+	    	$("#republic option").filter(function() {
+				return $(this).text() == "republic"; 
+			}).attr('selected', true);
+	    	$("#region option").filter(function() {
+				return $(this).text() == "region"; 
+			}).attr('selected', true);
+	    	$("#city option").filter(function() {
+				return $(this).text() == "city"; 
+			}).attr('selected', true);
+
+	    	$("#search_sdu_id").val("");
+	    	$("#faculty option").filter(function() {
+				return $(this).text() == "faculty"; 
+			}).attr('selected', true);
+	    	$("#department option").filter(function() {
+				return $(this).text() == "department"; 
+			}).attr('selected', true);
+	    	$("#course option").filter(function() {
+				return $(this).text() == "course"; 
+			}).attr('selected', true);
+	    	$("#group option").filter(function() {
+				return $(this).text() == "group"; 
+			}).attr('selected', true);
+	    	$("#grant_type option").filter(function() {
+				return $(this).text() == "grant_type"; 
+			}).attr('selected', true);
+	    	$('input[name=search_stipend]').prop('checked', false);
+	    	$("#min_gpa").val("");
+	    	$("#max_gpa").val("");
+	    	
+
+	    	var name = $("#search_name").val().trim();
+	    	var surname = $("#search_surname").val().trim();
+			var gender = "";
+			if($('input[name=search_gender]:checked').val() != null){
+				gender = $('input[name=search_gender]:checked').val();
+			}
+
+			var address_type = $('input[name=search_address_type]:checked').val();
+			var republic = $("#republic").val();
+			var region = $("#region").val();
+			var city = $("#city").val();
+			
+	    	var sdu_id = $("#search_sdu_id").val().trim();
+	    	var faculty = $("#faculty").val();
+			var department = $("#department").val();
+			var course = $("#course").val();
+			var group = $("#group").val();
+			var grant_type = $("#grant_type").val();
+			var stipend = "";
+			if($('input[name=search_stipend]:checked').val() != null){
+				stipend = $('input[name=search_stipend]:checked').val();
+			}
+			var min_gpa = 0;
+			if($("#min_gpa").val().trim() != ""){
+				min_gpa = $("#min_gpa").val().trim();
+			}
+			var max_gpa = 4;
+			if($("#max_gpa").val().trim() != ""){
+				max_gpa = $("#max_gpa").val().trim();
+			}
+
+			var family_members_count = "";
+			if($('input[name=search_family]:checked').val() != null){
+				family_members_count = $('input[name=search_family]:checked').val();
+			}
+	    	
+			$("#result").html("no data found");
+			document.getElementById("clear_a").style.display = "none";
+    	}
 	    
 	    function show_result(){
+		    
 	    	var name = $("#search_name").val().trim();
 	    	var surname = $("#search_surname").val().trim();
 			var gender = "";
@@ -120,6 +194,7 @@
 			   max_gpa == "" &&
 			   family_members_count == ""){
 				$("#result").html("no data found");
+				document.getElementById("clear_a").style.display = "none";
 			}
 			else{
 				$.ajax({
@@ -145,10 +220,19 @@
 						  "search_family_member_count":family_members_count},
 					cache:false,
 					success:function(res){
-						if(res=="")$("#result").html("no data found");
+						if(res==""){
+							$("#result").html("no data found");
+							document.getElementById("clear_a").style.display = "none";
+						}
 						else {
 							$("#result").html("");
 							$("#result").html(res);
+							if(res == "no data found | php"){
+								document.getElementById("clear_a").style.display = "none";
+							}
+							else{
+								document.getElementById("clear_a").style.display = "block";
+							}
 						}
 					}
 				});
