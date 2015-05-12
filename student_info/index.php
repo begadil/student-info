@@ -43,7 +43,7 @@
                         		<div id="result_buttons">
 	                        		<ul id="ul_buttons" class = "text-right" style = "display:none;">
 	                        			<li><a href='javascript:show_statictics_popup()'><i class='fa fa-line-chart'> show statistics</i></a></li>
-	                        			<li><a href='javascript:get_pdf()'><i class='fa fa-file-pdf-o'> get pdf</i></a></li>
+	                        			<li><a href='javascript:get_pdf_popup()'><i class='fa fa-file-pdf-o'> get pdf</i></a></li>
 	                        		</ul>
 	                        		<hr/>
 	                        	</div>
@@ -57,6 +57,61 @@
             </div>
         </div>
     </div>
+    
+    <div class="modal fade bs-example-modal-sm" id="get_pdf_popup" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+		  		<div class="modal-header bg-primary">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title" align="center"><strong>Select columns</strong></h4>
+		  		</div>
+				
+				<div class="modal-body">
+					<form class="form-horizontal" role="form" style="padding-left:1em;">
+						<div class="checkbox">
+						  	<label><input type="checkbox" value="" id = "chc_fullname">Name & Surname</label>
+						</div>
+						<div class="checkbox">
+						  	<label><input type="checkbox" value="" id = "chc_gender">Gender</label>
+						</div>
+						<div class="checkbox">
+						  	<label><input type="checkbox" value="" id = "chc_birthday">Birthday</label>
+						</div>
+						<div class="checkbox">
+						  	<label><input type="checkbox" value="" id = "chc_sdu_id">SDU ID</label>
+						</div>
+						<div class="checkbox">
+						  	<label><input type="checkbox" value="" id = "chc_sdu_info">SDU Info</label>
+						</div>
+						<div class="checkbox">
+						  	<label><input type="checkbox" value="" id = "chc_contact_info">Contact Info</label>
+						</div>
+						<div class="checkbox">
+						  	<label><input type="checkbox" value="" id = "chc_home_address">Home Address</label>
+						</div>
+						<div class="checkbox">
+						  	<label><input type="checkbox" value="" id = "chc_current_address">Current Address</label>
+						</div>
+						<div class="checkbox">
+						  	<label><input type="checkbox" value="" id = "chc_family_info">Family Info</label>
+						</div>
+						<div class='alert alert-danger' role='alert' id = "errorC" style="margin-top:5px; margin-bottom:-12px; display:none;">
+							<p align='center'> <strong>please, select at least one of them</strong> </p>
+						</div>
+					</form>
+				</div>
+				
+				<div class="modal-footer">
+					<input type="button" class="btn btn-success" value="OK" onclick="get_pdf()"/>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+		  		</div>
+				
+			</div>
+		</div>
+	</div>
+    
     
     <div class="modal fade bs-example-modal-sm" id="show_statictics_popup" tabindex="-1" role="dialog">
 		<div class="modal-dialog modal-sm">
@@ -92,7 +147,7 @@
 						  	<label><input type="checkbox" value="" id = "ch_city">City</label>
 						</div>
 						<div class='alert alert-danger' role='alert' id = "errorH" style="margin-top:5px; margin-bottom:-12px; display:none;">
-							<p align='center'> <strong>please, select one of them</strong> </p>
+							<p align='center'> <strong>please, select at least one of them</strong> </p>
 						</div>
 					</form>
 				</div>
@@ -243,6 +298,67 @@
 	        e.preventDefault();
 	        $("#wrapper").toggleClass("toggled");
 	    });
+
+	    function get_pdf_popup(){
+	    	$("#chc_fullname").prop("checked", false);
+	    	$("#chc_gender").prop("checked", false);
+	    	$("#chc_birthday").prop("checked", false);
+	    	$("#chc_sdu_id").prop("checked", false);
+	    	$("#chc_sdu_info").prop("checked", false);
+	    	$("#chc_contact_info").prop("checked", false);
+	    	$("#chc_home_address").prop("checked", false);
+	    	$("#chc_current_address").prop("checked", false);
+	    	$("#chc_family_info").prop("checked", false);
+	    	document.getElementById("errorC").style.display = "none";
+	    	$("#get_pdf_popup").modal('show');
+		}
+
+		function get_pdf(){
+			var isOk = false;
+			var requiredList = "";
+			if($('#chc_fullname').is(':checked')) {
+				isOk = true; 
+				requiredList += 'fullname|';
+			}
+			if($('#chc_gender').is(':checked')) {
+				isOk = true;
+				requiredList += 'gender|';
+			}
+			if($('#chc_birthday').is(':checked')) {
+				isOk = true;
+				requiredList += 'birthday|';
+			}
+			if($('#chc_sdu_id').is(':checked')) {
+				isOk = true;
+				requiredList += 'sdu_id|';
+			}
+			if($('#chc_sdu_info').is(':checked')) {
+				isOk = true;
+				requiredList += 'sdu_info|';
+			}
+			if($('#chc_contact_info').is(':checked')) {
+				isOk = true;
+				requiredList += 'contact_info|';
+			}
+			if($('#chc_home_address').is(':checked')) {
+				isOk = true;
+				requiredList += 'home_address|';
+			}
+			if($('#chc_current_address').is(':checked')) {
+				isOk = true;
+				requiredList += 'current_address|';
+			}
+			if($('#chc_family_info').is(':checked')) {
+				isOk = true;
+				requiredList += 'family_info';
+			}
+			if(isOk == true){
+				window.open("get_pdf.php?query="+ QUERY +"&required_list="+ requiredList +"", '_blank');
+			}
+			else{
+				document.getElementById("errorC").style.display = "block";
+			}
+		}
 
 	    function show_statictics_popup(){
 
