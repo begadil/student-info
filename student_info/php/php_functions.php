@@ -453,6 +453,13 @@
  			$law = 0;
  			$eco = 0;
  			
+ 			$stipend = 0;
+ 			$no_stipend = 0;
+ 			
+ 			$sdu_grant = 0;
+ 			$state_grant = 0;
+ 			$paid = 0;
+ 			
  			$h_array = array();
  			for($i = 0; $i < 18; $i++){
  				$h_array[] = 0;
@@ -514,6 +521,22 @@
 				$qq = mysql_query("select * from sdu_info where id = '$sdu_info_id'");
 				$aa = mysql_fetch_array($qq);
 				$gpas .= "|$a[name_en] $a[surname_en]|$aa[gpa]";
+				if($aa['stipend'] == 'yes'){
+					$stipend++;
+				}
+				else{
+					$no_stipend++;
+				}
+				
+				if($aa['grant_type'] == 'State grant'){
+					$state_grant++;
+				}
+				elseif($aa['grant_type'] == 'SDU grant'){
+					$sdu_grant++;
+				}
+				else{
+					$paid++;
+				}
 			}
 			$res = "$male|$female|$eng|$phil|$law|$eco";
 			for($i = 1; $i < 18; $i++){
@@ -529,7 +552,7 @@
 			for($i = 1; $i < 19; $i++){
 				$res.="|$c_c_array[$i]";
 			}
-			$res.="|";
+			$res.="|$stipend|$no_stipend|$sdu_grant|$state_grant|$paid|";
 			echo $res;
 		}
 		
@@ -855,7 +878,7 @@
 				$q_n = mysql_num_rows($q);
 				
 				if($q_n > 0){
-					echo "$query|||";
+					echo "$query|";
 					echo "<table class='table table-hover table-condensed table-bordered'>";
 					echo "<thead>
 											<tr>
@@ -912,7 +935,7 @@
 				}
 			}
 			else{
-				echo "no data found | php";
+				echo "no data found php";
 			}
 		}
 		/************************************************************************/
