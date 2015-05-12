@@ -463,10 +463,6 @@
 			$min_gpa = $_REQUEST['search_min_gpa'];
 			$max_gpa = $_REQUEST['search_max_gpa'];
 			
-			echo "$sdu_id | $faculty | $department | $course | $group | $grant_type | $stipend | $min_gpa | $max_gpa";
-			echo "<br/>$republic | $region | $city";
-			echo "<br/>$name | $surname | $gender";
-			$family_members_count = $_REQUEST['search_family_member_count'];
 			
 			$isNothing = false;
 			
@@ -504,7 +500,7 @@
 					($republic == 0 && 
 					 $region == 0 && 
 					 $city == 0)){
-				echo "a";
+				
 				$query = "select * from student where ";
 				
 				if($name != ""){
@@ -533,7 +529,7 @@
 					($republic == 0 && 
 					 $region == 0 && 
 					 $city == 0)){
-				echo "b";
+				
 				if($course == 0){
 					$query = "select st.* from student as st, sdu_info as si where st.sdu_info_id = si.id and gpa between $min_gpa and $max_gpa ";
 				}
@@ -595,7 +591,7 @@
 					 $stipend == "" && 
 					 $min_gpa == 0 &&
 					 $max_gpa == 4)){
-				echo "c";
+				
 				if($address_type == "home"){
 					$query = "select st.* from student as st, address as ad where st.home_address_id = ad.id and ";
 				}
@@ -634,7 +630,7 @@
 					 $max_gpa != 4) || 
 					($name != "" || $surname != "" || $gender != "") || 
 					($republic != 0 || $region != 0 || $city != 0)){
-				echo "d";
+				
 				if($address_type == "home"){
 					$query = "select distinct st.id, st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id and si.gpa between $min_gpa and $max_gpa ";
 				}
@@ -764,7 +760,6 @@
 			
 			if($isNothing == false){
 				$q = mysql_query($query);
-				echo $query;
 				
 				$q_n = mysql_num_rows($q);
 				

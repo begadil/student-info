@@ -1,13 +1,15 @@
 		<div id="sidebar-wrapper">
 			
-			<h3>Search by: </h3>
-			
+			<h3>Search</h3>
+			<p class='text-center' id="clear_a">
+				<a href='javascript:reset()'><i class="fa fa-times"> reset</i></a>
+			</p>
 			<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 				<div class="panel panel-info">
 			    	<div class="panel-heading" role="tab" id="headingOne">
 			      		<h4 class="panel-title">
 			        		<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-			          			name or id
+			          			name or id 
 			        		</a>
 			      		</h4>
 			    	</div>
@@ -170,34 +172,6 @@
 			      			<div class="col-lg-2"></div>
 			      		</div>
 			    	</div>
-			  	</div>
-			  	
-			  	<div class="panel panel-info">
-			    	<div class="panel-heading" role="tab" id="headingFour">
-			      		<h4 class="panel-title">
-			        		<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-			          			family
-			        		</a>
-			      		</h4>
-			    	</div>
-			    	<div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
-			      		<div class="panel-body">
-			      			<div class="row">
-			      				<div class="col-lg-1"></div>
-			      				<form class="col-lg-9 form-horizontal" role="form">
-									<div class="form-group">
-										<label class="control-label">Family members count: </label>
-										<div class="col-lg-12">
-							  				<label class="radio-inline"><input type="radio" name="search_family" value = 'let3' onClick="show_result()"> ≤3 </label>
-											<label class="radio-inline"><input type="radio" name="search_family" value = 'bt3' onClick="show_result()"> >3 </label>
-										</div>
-									</div>
-								</form>
-			      				<div class="col-lg-2"></div>
-			      			</div>
-			      		</div>
-			    	</div>
-			  	</div>
-			  	
+			  	</div>	  	
 			</div>
 		</div>
