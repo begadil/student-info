@@ -41,8 +41,7 @@
                         <div class="row res">
                         	<div class="col-lg-12">
                         		<div id="result_buttons">
-	                        		<ul id="ul_buttons" class = "text-right">
-	                        			<li><a href='a.php'><i class='fa fa-line-chart'> statistics</i></a></li>
+	                        		<ul id="ul_buttons" class = "text-right" style = "display:none;">
 	                        			<li><a href='javascript:show_statictics_popup()'><i class='fa fa-line-chart'> show statistics</i></a></li>
 	                        			<li><a href='javascript:get_pdf()'><i class='fa fa-file-pdf-o'> get pdf</i></a></li>
 	                        		</ul>
@@ -70,8 +69,7 @@
 		  		</div>
 				
 				<div class="modal-body">
-					<div class="col-lg-2"></div>
-					<div class="form-group col-lg-8">
+					<form class="form-horizontal" role="form" style="padding-left:1em;">
 						<div class="checkbox">
 						  	<label><input type="checkbox" value="" id = "ch_gender">Gender</label>
 						</div>
@@ -79,16 +77,13 @@
 						  	<label><input type="checkbox" value="" id = "ch_faculty">Faculty</label>
 						</div>
 						<div class="checkbox">
-						  	<label><input type="checkbox" value="" id = "ch_department">Department</label>
-						</div>
-						<div class="checkbox">
-						  	<label><input type="checkbox" value="" id = "ch_group">Group</label>
-						</div>
-						<div class="checkbox">
 						  	<label><input type="checkbox" value="" id = "ch_gpa">GPA</label>
 						</div>
 						<div class="checkbox">
-						  	<label><input type="checkbox" value="" id = "ch_republic">Republic</label>
+						  	<label><input type="checkbox" value="" id = "ch_stipend">Stipend</label>
+						</div>
+						<div class="checkbox">
+						  	<label><input type="checkbox" value="" id = "ch_grant">Grant</label>
 						</div>
 						<div class="checkbox">
 						  	<label><input type="checkbox" value="" id = "ch_region">Region</label>
@@ -96,19 +91,21 @@
 						<div class="checkbox">
 						  	<label><input type="checkbox" value="" id = "ch_city">City</label>
 						</div>
-					</div>
-					<div class="col-lg-2"></div>
+						<div class='alert alert-danger' role='alert' id = "errorH" style="margin-top:5px; margin-bottom:-12px; display:none;">
+							<p align='center'> <strong>please, select one of them</strong> </p>
+						</div>
+					</form>
 				</div>
 				
 				<div class="modal-footer">
-					<input type="submit" class="btn btn-success" value="OK" onclick="show_statictics()"/>
+					<input type="button" class="btn btn-success" value="OK" onclick="show_statictics_modal()"/>
 					<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
 		  		</div>
 				
 			</div>
 		</div>
 	</div>
-	
+    
 	<div class="modal fade bs-example-modal-lg" id="show_statictics" tabindex="-1" role="dialog" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
@@ -120,7 +117,7 @@
 		  		</div>
 		  	
 				<div class="modal-body"  style = "min-height: 500px;" id="graphs">
-					<div class="well">
+					<div class="well" id="w_gender-chart">
 						<div class="row">
 							<p style = "font-size:2em; padding-left: 0.3em;" class="text-left">
 								<span class='label label-warning'>Gender</span>
@@ -130,9 +127,9 @@
 							</div>
 						</div>
 					</div>
-					<hr/>
+					<hr id="h_gender-chart"/>
 					
-					<div class="well">
+					<div class="well" id="w_faculty-chart">
 						<div class="row">
 							<p style = "font-size:2em; padding-left: 0.3em;" class="text-left">
 								<span class='label label-warning'>Faculty</span>
@@ -142,9 +139,9 @@
 							</div>
 						</div>
 					</div>
-					<hr/>
+					<hr id="h_faculty-chart"/>
 					
-					<div class="well">
+					<div class="well" id="w_gpa-chart">
 						<div class="row">
 							<p style = "font-size:2em; padding-left: 0.3em;" class="text-left">
 								<span class='label label-warning'>GPA</span>
@@ -154,9 +151,33 @@
 							</div>
 						</div>
 					</div>
-					<hr/>
+					<hr id="h_gpa-chart"/>
 					
-					<div class="well">
+					<div class="well" id="w_stipend-chart">
+						<div class="row">
+							<p style = "font-size:2em; padding-left: 0.3em;" class="text-left">
+								<span class='label label-warning'>Stipend</span>
+							</p>
+							<div class="col-lg-12">
+								<div id="stipend-chart" style = "width: 500px; height:350px; margin:20px auto;"></div>
+							</div>
+						</div>
+					</div>
+					<hr id="h_stipend-chart"/>
+					
+					<div class="well" id="w_grant-chart">
+						<div class="row">
+							<p style = "font-size:2em; padding-left: 0.3em;" class="text-left">
+								<span class='label label-warning'>Grant Type</span>
+							</p>
+							<div class="col-lg-12">
+								<div id="grant-chart" style = "width: 500px; height:300px; margin:20px auto;"></div>
+							</div>
+						</div>
+					</div>
+					<hr id="h_grant-chart"/>
+					
+					<div class="well" id="w_h_region-chart">
 						<div class="row">
 							<p style = "font-size:2em; padding-left: 0.3em;" class="text-left">
 								<span class='label label-warning'>Home Region</span>
@@ -166,9 +187,9 @@
 							</div>
 						</div>
 					</div>
-					<hr/>
+					<hr id="h_h_region-chart"/>
 					
-					<div class="well">
+					<div class="well" id="w_h_city-chart">
 						<div class="row">
 							<p style = "font-size:2em; padding-left: 0.3em;" class="text-left">
 								<span class='label label-warning'>Home City</span>
@@ -178,9 +199,9 @@
 							</div>
 						</div>
 					</div>
-					<hr/>
+					<hr id="h_h_city-chart"/>
 					
-					<div class="well">
+					<div class="well" id="w_c_region-chart">
 						<div class="row">
 							<p style = "font-size:2em; padding-left:0.3em;" class="text-left">
 								<span class='label label-warning'>Current Region</span>
@@ -190,9 +211,9 @@
 							</div>
 						</div>
 					</div>
-					<hr/>
+					<hr id="h_c_region-chart"/>
 					
-					<div class="well">
+					<div class="well" id="w_c_city-chart">
 						<div class="row">
 							<p style = "font-size:2em; padding-left:0.3em;" class="text-left">
 								<span class='label label-warning'>Current City</span>
@@ -206,6 +227,7 @@
 			</div>
 		</div>
 	</div>
+	
 	
 	<script src="js/jquery.js"></script>
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
@@ -223,16 +245,98 @@
 	    });
 
 	    function show_statictics_popup(){
+
+	    	$("#ch_gender").prop("checked", false);
+	    	$("#ch_faculty").prop("checked", false);
+	    	$("#ch_gpa").prop("checked", false);
+	    	$("#ch_stipend").prop("checked", false);
+	    	$("#ch_grant").prop("checked", false);
+	    	$("#ch_region").prop("checked", false);
+	    	$("#ch_city").prop("checked", false);
+	    	document.getElementById("errorH").style.display = "none";
 		    
 	    	$("#show_statictics_popup").modal('show');
+	    	document.getElementById("w_gender-chart").style.display = "none";
+			document.getElementById("w_faculty-chart").style.display = "none";
+			document.getElementById("w_gpa-chart").style.display = "none";
+			document.getElementById("w_stipend-chart").style.display = "none";
+			document.getElementById("w_grant-chart").style.display = "none";
+			document.getElementById("w_h_region-chart").style.display = "none";
+			document.getElementById("w_c_region-chart").style.display = "none";
+			document.getElementById("w_h_city-chart").style.display = "none";
+			document.getElementById("w_c_city-chart").style.display = "none";
+			document.getElementById("h_gender-chart").style.display = "none";
+			document.getElementById("h_faculty-chart").style.display = "none";
+			document.getElementById("h_gpa-chart").style.display = "none";
+			document.getElementById("h_stipend-chart").style.display = "none";
+			document.getElementById("h_grant-chart").style.display = "none";
+			document.getElementById("h_h_region-chart").style.display = "none";
+			document.getElementById("h_c_region-chart").style.display = "none";
+			document.getElementById("h_h_city-chart").style.display = "none";
+	    	
+		}
+
+		function show_statictics_modal(){
+			var isOk = false;
+			
+			if($('#ch_gender').is(':checked')){
+				document.getElementById("w_gender-chart").style.display = "block";
+				document.getElementById("h_gender-chart").style.display = "block";
+				isOk = true;
+			}
+			if($('#ch_faculty').is(':checked')){
+				document.getElementById("w_faculty-chart").style.display = "block";
+				document.getElementById("h_faculty-chart").style.display = "block";
+				isOk = true;
+			}
+			if($('#ch_gpa').is(':checked')){
+				document.getElementById("w_gpa-chart").style.display = "block";
+				document.getElementById("h_gpa-chart").style.display = "block";
+				isOk = true;
+			}
+			if($('#ch_stipend').is(':checked')){
+				document.getElementById("w_stipend-chart").style.display = "block";
+				document.getElementById("h_stipend-chart").style.display = "block";
+				isOk = true;
+			}
+			if($('#ch_grant').is(':checked')){
+				document.getElementById("w_grant-chart").style.display = "block";
+				document.getElementById("h_grant-chart").style.display = "block";
+				isOk = true;
+			}
+			if($('#ch_region').is(':checked')){
+				document.getElementById("w_h_region-chart").style.display = "block";
+				document.getElementById("w_c_region-chart").style.display = "block";
+				document.getElementById("h_h_region-chart").style.display = "block";
+				document.getElementById("h_c_region-chart").style.display = "block";
+				isOk = true;
+			}
+			if($('#ch_city').is(':checked')){
+				document.getElementById("w_h_city-chart").style.display = "block";
+				document.getElementById("w_c_city-chart").style.display = "block";
+				document.getElementById("h_h_city-chart").style.display = "block";
+				isOk = true;
+			}
+
+			if(isOk == true){
+				show_statictics();
+			}
+			else{
+				document.getElementById("errorH").style.display = "block";
+			}
 		}
 
 		function show_statictics(){
+			document.getElementById("errorH").style.display = "none";
 			$("#gender-chart").html("");
 			$("#faculty-chart").html("");
-			$("#h_region-chart").html("");
-			$("#c_region-chart").html("");
 			$("#gpa-chart").html("");
+			$("#stipend-chart").html("");
+			$("#grant-chart").html("");
+			$("#h_region-chart").html("");
+			$("#h_city-chart").html("");
+			$("#c_region-chart").html("");
+			$("#c_city-chart").html("");
 			$.ajax({
 				type:"POST",
 				url:"php/php_functions.php?",
@@ -426,12 +530,47 @@
 			            ],
 			            formatter: function (x) { return x + "%"}
 				    });
-					
+
+					var stipend = array[last];
+					var no_stipend = array[last+1];
+					total = parseInt(stipend) + parseInt(no_stipend);
+
+					Morris.Donut({
+				        element: 'stipend-chart',
+				        data: [
+						{label: "Stipend", value:  Math.round(parseInt(array[last++])/total*100)}, 
+				        {label: "No stipend", value:  Math.round(parseInt(array[last++])/total*100)}
+			            ],
+						labelColor: '#000',
+			            colors: [
+			              '#5cb85c',
+			              '#d9534f'
+			            ],
+			            formatter: function (x) { return x + "%"}
+				    });
+
+
+					var sdu_grant = array[last++];
+					var state_grant = array[last++];
+					var paid = array[last++];
+					total = parseInt(sdu_grant) + parseInt(state_grant) + parseInt(paid);
+					Morris.Bar({
+						  element: 'grant-chart',
+						  data: [
+						    {x: 'Grant type', y: Math.round(sdu_grant/total * 100), z: Math.round(state_grant/total * 100), a: Math.round(paid/total * 100)}
+						  ],
+						  xkey: 'x',
+						  ykeys: ['y','z','a'],
+						  labels: ['SDU grant', 'State grant', 'Paid']
+						}).on('click', function(i, row){
+						  console.log(i, row);
+					});
+
+				    
+					$("#show_statictics").modal('show');
 					
 				}
 			});
-			
-			$("#show_statictics").modal('show');
 		}
 
 	    function reset(){
@@ -508,6 +647,7 @@
 	    	
 			$("#result").html("no data found");
 			document.getElementById("clear_a").style.display = "none";
+			document.getElementById("ul_buttons").style.display = "none";
     	}
 
 	    QUERY = "";
@@ -568,6 +708,7 @@
 			   family_members_count == ""){
 				$("#result").html("no data found");
 				document.getElementById("clear_a").style.display = "none";
+				document.getElementById("ul_buttons").style.display = "none";
 			}
 			else{
 				$.ajax({
@@ -596,17 +737,21 @@
 						if(res==""){
 							$("#result").html("no data found");
 							document.getElementById("clear_a").style.display = "none";
+							document.getElementById("ul_buttons").style.display = "none";
 						}
 						else {
 							$("#result").html("");
-							var array = res.split("|||");
+							var array = res.split("|");
 							QUERY = array[0];
 							$("#result").html(array[1]);
-							if(res == "no data found | php"){
+							if(res == "no data found php"){
+								$("#result").html("no data found");
 								document.getElementById("clear_a").style.display = "none";
+								document.getElementById("ul_buttons").style.display = "none";
 							}
 							else{
 								document.getElementById("clear_a").style.display = "block";
+								document.getElementById("ul_buttons").style.display = "block";
 							}
 						}
 					}
