@@ -35,3 +35,18 @@ body{
 #clear_a a:hover{
 	color: #fff;
 }
+
+#ul_buttons{
+	padding: 0;
+	list-style-type: none;
+	margin-bottom:-10px;
+}
+
+#ul_buttons li{
+	display: inline-block;
+	padding-left: 10px;
+}
+
+#ul_buttons li a{
+	color: rgba(0,0,0,0.9);
+}

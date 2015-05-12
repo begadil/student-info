@@ -16,6 +16,7 @@
     <link href="css/index/index.css" rel="stylesheet">
     <link href="css/font-awesome.min.css" rel="stylesheet">
     <link href="css/simple-sidebar.css" rel="stylesheet">
+    <link href="css/graph/morris.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Ubuntu:400,700' rel='stylesheet' type='text/css'>
 </head>
 <body>
@@ -39,6 +40,14 @@
 						</div>
                         <div class="row res">
                         	<div class="col-lg-12">
+                        		<div id="result_buttons">
+	                        		<ul id="ul_buttons" class = "text-right">
+	                        			<li><a href='a.php'><i class='fa fa-line-chart'> statistics</i></a></li>
+	                        			<li><a href='javascript:show_statictics_popup()'><i class='fa fa-line-chart'> show statistics</i></a></li>
+	                        			<li><a href='javascript:get_pdf()'><i class='fa fa-file-pdf-o'> get pdf</i></a></li>
+	                        		</ul>
+	                        		<hr/>
+	                        	</div>
                         		<div id="result">
                         			no data found
                         		</div>
@@ -49,11 +58,161 @@
             </div>
         </div>
     </div>
+    
+    <div class="modal fade bs-example-modal-sm" id="show_statictics_popup" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+		  		<div class="modal-header bg-primary">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title" align="center"><strong>Select graphs</strong></h4>
+		  		</div>
+				
+				<div class="modal-body">
+					<div class="col-lg-2"></div>
+					<div class="form-group col-lg-8">
+						<div class="checkbox">
+						  	<label><input type="checkbox" value="" id = "ch_gender">Gender</label>
+						</div>
+						<div class="checkbox">
+						  	<label><input type="checkbox" value="" id = "ch_faculty">Faculty</label>
+						</div>
+						<div class="checkbox">
+						  	<label><input type="checkbox" value="" id = "ch_department">Department</label>
+						</div>
+						<div class="checkbox">
+						  	<label><input type="checkbox" value="" id = "ch_group">Group</label>
+						</div>
+						<div class="checkbox">
+						  	<label><input type="checkbox" value="" id = "ch_gpa">GPA</label>
+						</div>
+						<div class="checkbox">
+						  	<label><input type="checkbox" value="" id = "ch_republic">Republic</label>
+						</div>
+						<div class="checkbox">
+						  	<label><input type="checkbox" value="" id = "ch_region">Region</label>
+						</div>
+						<div class="checkbox">
+						  	<label><input type="checkbox" value="" id = "ch_city">City</label>
+						</div>
+					</div>
+					<div class="col-lg-2"></div>
+				</div>
+				
+				<div class="modal-footer">
+					<input type="submit" class="btn btn-success" value="OK" onclick="show_statictics()"/>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+		  		</div>
+				
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade bs-example-modal-lg" id="show_statictics" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+		  		<div class="modal-header bg-primary">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title" align="center"><strong>Statistics</strong></h4>
+		  		</div>
+		  	
+				<div class="modal-body"  style = "min-height: 500px;" id="graphs">
+					<div class="well">
+						<div class="row">
+							<p style = "font-size:2em; padding-left: 0.3em;" class="text-left">
+								<span class='label label-warning'>Gender</span>
+							</p>
+							<div class="col-lg-12">
+								<div id="gender-chart" style = "width: 300px; height:300px; margin:20px auto;"></div>
+							</div>
+						</div>
+					</div>
+					<hr/>
+					
+					<div class="well">
+						<div class="row">
+							<p style = "font-size:2em; padding-left: 0.3em;" class="text-left">
+								<span class='label label-warning'>Faculty</span>
+							</p>
+							<div class="col-lg-12">
+								<div id="faculty-chart" style = "width: 500px; height:300px; margin:20px auto;"></div>
+							</div>
+						</div>
+					</div>
+					<hr/>
+					
+					<div class="well">
+						<div class="row">
+							<p style = "font-size:2em; padding-left: 0.3em;" class="text-left">
+								<span class='label label-warning'>GPA</span>
+							</p>
+							<div class="col-lg-12">
+								<div id="gpa-chart" style = "width: 500px; height:350px; margin:20px auto;"></div>
+							</div>
+						</div>
+					</div>
+					<hr/>
+					
+					<div class="well">
+						<div class="row">
+							<p style = "font-size:2em; padding-left: 0.3em;" class="text-left">
+								<span class='label label-warning'>Home Region</span>
+							</p>
+							<div class="col-lg-12">
+								<div id="h_region-chart" style = "width: 300px; height:300px; margin:20px auto;"></div>
+							</div>
+						</div>
+					</div>
+					<hr/>
+					
+					<div class="well">
+						<div class="row">
+							<p style = "font-size:2em; padding-left: 0.3em;" class="text-left">
+								<span class='label label-warning'>Home City</span>
+							</p>
+							<div class="col-lg-12">
+								<div id="h_city-chart" style = "width: 300px; height:300px; margin:20px auto;"></div>
+							</div>
+						</div>
+					</div>
+					<hr/>
+					
+					<div class="well">
+						<div class="row">
+							<p style = "font-size:2em; padding-left:0.3em;" class="text-left">
+								<span class='label label-warning'>Current Region</span>
+							</p>
+							<div class="col-lg-12">
+								<div id="c_region-chart" style = "width: 300px; height:300px; margin:20px auto;"></div>
+							</div>
+						</div>
+					</div>
+					<hr/>
+					
+					<div class="well">
+						<div class="row">
+							<p style = "font-size:2em; padding-left:0.3em;" class="text-left">
+								<span class='label label-warning'>Current City</span>
+							</p>
+							<div class="col-lg-12">
+								<div id="c_city-chart" style = "width: 300px; height:300px; margin:20px auto;"></div>
+							</div>
+						</div>
+					</div>
+				</div>				
+			</div>
+		</div>
+	</div>
 	
 	<script src="js/jquery.js"></script>
-	<script src="js/bootstrap.min.js"></script>
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-	<script type="text/javascript" src="js/js_functions.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/prettify/r224/prettify.min.js"></script>
+	<script src="js/graph/morris.js"></script>
 	
    	
    	<script>
@@ -62,6 +221,218 @@
 	        e.preventDefault();
 	        $("#wrapper").toggleClass("toggled");
 	    });
+
+	    function show_statictics_popup(){
+		    
+	    	$("#show_statictics_popup").modal('show');
+		}
+
+		function show_statictics(){
+			$("#gender-chart").html("");
+			$("#faculty-chart").html("");
+			$("#h_region-chart").html("");
+			$("#c_region-chart").html("");
+			$("#gpa-chart").html("");
+			$.ajax({
+				type:"POST",
+				url:"php/php_functions.php?",
+				data:{"function":'get_graph_data', 
+					  "query":QUERY},
+				cache:false,
+				success:function(res){
+					var array = res.split("|");
+					var male = array[0];
+					var female = array[1];
+					var total = parseInt(male) + parseInt(female);
+					var mp = Math.round(male/total * 100);
+					var fp = Math.round(female/total * 100);
+					
+					Morris.Donut({
+				        element: 'gender-chart',
+				        data: [
+						{label: "Male", value: mp}, 
+				        {label: "Female", value: fp}
+			            ],
+						labelColor: '#000',
+			            colors: [
+			              '#5cb85c',
+			              '#d9534f'
+			            ],
+			            formatter: function (x) { return x + "%"}
+				    });
+
+					var eng = array[2];
+					var phil = array[3];
+					var law = array[4];
+					var eco = array[5];
+					total = parseInt(eng) + parseInt(phil) + parseInt(law) + parseInt(eco);
+					var engp = Math.round(eng/total * 100);
+					var philp = Math.round(phil/total * 100);
+					var lawp = Math.round(law/total * 100);
+					var ecop = Math.round(eco/total * 100);
+
+					Morris.Bar({
+						  element: 'faculty-chart',
+						  data: [
+						    {x: 'Faculty', y: engp, z: philp, a: lawp, b: ecop}
+						  ],
+						  xkey: 'x',
+						  ykeys: ['y','z','a','b'],
+						  labels: ['Engineering & Natural Sciences', 'Philology and Educational Sciences', 'Law and Social Sciences', 'Economics and Administrative Sciences']
+						}).on('click', function(i, row){
+						  console.log(i, row);
+					});
+
+					total = 0;
+					for(var i = 0; i < 17; i++){
+						total += parseInt(array[i+6]);
+					}
+
+					Morris.Donut({
+				        element: 'h_region-chart',
+				        data: [
+						{label: "Akmola Region", value: Math.round(parseInt(array[6])/total*100)}, 
+				        {label: "Aktobe Region", value: Math.round(parseInt(array[7])/total*100)},
+				        {label: "Almaty", value: Math.round(parseInt(array[8])/total*100)}, 
+				        {label: "Almaty Region", value: Math.round(parseInt(array[9])/total*100)},
+				        {label: "Astana", value: Math.round(parseInt(array[10])/total*100)}, 
+				        {label: "Atyrau Region", value: Math.round(parseInt(array[11])/total*100)},
+				        {label: "Baikonur", value: Math.round(parseInt(array[12])/total*100)}, 
+				        {label: "East Kazakhstan Region", value: Math.round(parseInt(array[13])/total*100)},
+				        {label: "Jambyl Region", value: Math.round(parseInt(array[14])/total*100)}, 
+				        {label: "Karaganda Region", value: Math.round(parseInt(array[15])/total*100)},
+				        {label: "Kostanay Region", value: Math.round(parseInt(array[16])/total*100)}, 
+				        {label: "Kyzylorda Region", value: Math.round(parseInt(array[17])/total*100)},
+				        {label: "Mangystau Region", value: Math.round(parseInt(array[18])/total*100)}, 
+				        {label: "North Kazakhstan Region", value: Math.round(parseInt(array[19])/total*100)},
+				        {label: "Pavlodar Region", value: Math.round(parseInt(array[20])/total*100)}, 
+				        {label: "South Kazakhstan Region", value: Math.round(parseInt(array[21])/total*100)},
+				        {label: "West Kazakhstan Region", value: Math.round(parseInt(array[22])/total*100)}
+			            ],
+			            formatter: function (x) { return x + "%"}
+				    });
+
+
+					total = 0;
+					for(var i = 0; i < 17; i++){
+						total += parseInt(array[i+23]);
+					}
+
+					Morris.Donut({
+				        element: 'c_region-chart',
+				        data: [
+						{label: "Akmola Region", value: Math.round(parseInt(array[23])/total*100)}, 
+				        {label: "Aktobe Region", value: Math.round(parseInt(array[24])/total*100)},
+				        {label: "Almaty", value: Math.round(parseInt(array[25])/total*100)}, 
+				        {label: "Almaty Region", value: Math.round(parseInt(array[26])/total*100)},
+				        {label: "Astana", value: Math.round(parseInt(array[27])/total*100)}, 
+				        {label: "Atyrau Region", value: Math.round(parseInt(array[28])/total*100)},
+				        {label: "Baikonur", value: Math.round(parseInt(array[29])/total*100)}, 
+				        {label: "East Kazakhstan Region", value: Math.round(parseInt(array[30])/total*100)},
+				        {label: "Jambyl Region", value: Math.round(parseInt(array[31])/total*100)}, 
+				        {label: "Karaganda Region", value: Math.round(parseInt(array[32])/total*100)},
+				        {label: "Kostanay Region", value: Math.round(parseInt(array[33])/total*100)}, 
+				        {label: "Kyzylorda Region", value: Math.round(parseInt(array[34])/total*100)},
+				        {label: "Mangystau Region", value: Math.round(parseInt(array[35])/total*100)}, 
+				        {label: "North Kazakhstan Region", value: Math.round(parseInt(array[36])/total*100)},
+				        {label: "Pavlodar Region", value: Math.round(parseInt(array[37])/total*100)}, 
+				        {label: "South Kazakhstan Region", value: Math.round(parseInt(array[38])/total*100)},
+				        {label: "West Kazakhstan Region", value: Math.round(parseInt(array[39])/total*100)}
+			            ],
+			            formatter: function (x) { return x + "%"}
+				    });
+
+					var count = parseInt(array[40]);
+					var gpas = [];
+					var last = 0;
+					for(var i = 0; i < count*2; i+=2){
+						gpas.push({"student":array[i+41]+"", "gpa":array[i+42]});
+						last = i+42;
+					}
+					
+					
+					Morris.Line({
+					  element: 'gpa-chart',
+					  data: gpas,
+					  xkey: 'student',
+					  ykeys: ['gpa'],
+					  labels: ['GPA'],
+					  parseTime: false,
+					  hoverCallback: function (index, options, default_content, row) {
+					    return default_content.replace("gpa(x)", "" + row.y + "");
+					  },
+					  xLabelMargin: 10
+					});
+
+					last++;
+
+					total = 0;
+					for(var i = 0; i < 18; i++){
+						total += parseInt(array[i+last]);
+					}
+					
+
+					Morris.Donut({
+				        element: 'h_city-chart',
+				        data: [
+						{label: "Kokshetau", value: Math.round(parseInt(array[last++])/total*100)}, 
+				        {label: "Aktobe", value: Math.round(parseInt(array[last++])/total*100)},
+				        {label: "Almaty", value: Math.round(parseInt(array[last++])/total*100)}, 
+				        {label: "Kaskelen", value: Math.round(parseInt(array[last++])/total*100)},
+				        {label: "Taldykorgan", value: Math.round(parseInt(array[last++])/total*100)}, 
+				        {label: "Astana", value: Math.round(parseInt(array[last++])/total*100)},
+				        {label: "Atyrau", value: Math.round(parseInt(array[last++])/total*100)}, 
+				        {label: "Baikonur", value: Math.round(parseInt(array[last++])/total*100)},
+				        {label: "Oskemen", value: Math.round(parseInt(array[last++])/total*100)}, 
+				        {label: "Taraz", value: Math.round(parseInt(array[last++])/total*100)},
+				        {label: "Karaganda", value: Math.round(parseInt(array[last++])/total*100)}, 
+				        {label: "Kostanay", value: Math.round(parseInt(array[last++])/total*100)},
+				        {label: "Kyzylorda", value: Math.round(parseInt(array[last++])/total*100)}, 
+				        {label: "Aktau", value: Math.round(parseInt(array[last++])/total*100)},
+				        {label: "Petropavl", value: Math.round(parseInt(array[last++])/total*100)}, 
+				        {label: "Pavlodar", value: Math.round(parseInt(array[last++])/total*100)},
+				        {label: "Shymkent", value: Math.round(parseInt(array[last++])/total*100)},
+				        {label: "Oral", value: Math.round(parseInt(array[last++])/total*100)}
+			            ],
+			            formatter: function (x) { return x + "%"}
+				    });
+
+					total = 0;
+					for(var i = 0; i < 18; i++){
+						total += parseInt(array[i+last]);
+					}
+
+					Morris.Donut({
+				        element: 'c_city-chart',
+				        data: [
+						{label: "Kokshetau", value: Math.round(parseInt(array[last++])/total*100)}, 
+				        {label: "Aktobe", value: Math.round(parseInt(array[last++])/total*100)},
+				        {label: "Almaty", value: Math.round(parseInt(array[last++])/total*100)}, 
+				        {label: "Kaskelen", value: Math.round(parseInt(array[last++])/total*100)},
+				        {label: "Taldykorgan", value: Math.round(parseInt(array[last++])/total*100)}, 
+				        {label: "Astana", value: Math.round(parseInt(array[last++])/total*100)},
+				        {label: "Atyrau", value: Math.round(parseInt(array[last++])/total*100)}, 
+				        {label: "Baikonur", value: Math.round(parseInt(array[last++])/total*100)},
+				        {label: "Oskemen", value: Math.round(parseInt(array[last++])/total*100)}, 
+				        {label: "Taraz", value: Math.round(parseInt(array[last++])/total*100)},
+				        {label: "Karaganda", value: Math.round(parseInt(array[last++])/total*100)}, 
+				        {label: "Kostanay", value: Math.round(parseInt(array[last++])/total*100)},
+				        {label: "Kyzylorda", value: Math.round(parseInt(array[last++])/total*100)}, 
+				        {label: "Aktau", value: Math.round(parseInt(array[last++])/total*100)},
+				        {label: "Petropavl", value: Math.round(parseInt(array[last++])/total*100)}, 
+				        {label: "Pavlodar", value: Math.round(parseInt(array[last++])/total*100)},
+				        {label: "Shymkent", value: Math.round(parseInt(array[last++])/total*100)},
+				        {label: "Oral", value: Math.round(parseInt(array[last++])/total*100)}
+			            ],
+			            formatter: function (x) { return x + "%"}
+				    });
+					
+					
+				}
+			});
+			
+			$("#show_statictics").modal('show');
+		}
 
 	    function reset(){
 	    	$("#search_name").val("");
@@ -138,6 +509,8 @@
 			$("#result").html("no data found");
 			document.getElementById("clear_a").style.display = "none";
     	}
+
+	    QUERY = "";
 	    
 	    function show_result(){
 		    
@@ -226,7 +599,9 @@
 						}
 						else {
 							$("#result").html("");
-							$("#result").html(res);
+							var array = res.split("|||");
+							QUERY = array[0];
+							$("#result").html(array[1]);
 							if(res == "no data found | php"){
 								document.getElementById("clear_a").style.display = "none";
 							}
