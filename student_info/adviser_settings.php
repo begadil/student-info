@@ -50,7 +50,7 @@
 					<div class="form-group" id="success" style="display:none;">
 						<div class="col-lg-12">
 					  		<div class='alert alert-success' role='alert'>
-								<p align='center'> <strong>student has been succesfully added</strong> </p>
+								<p align='center'> <strong>password has been succesfully changed</strong> </p>
 							</div>
 						</div>
 					</div>

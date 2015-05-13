@@ -555,6 +555,199 @@
 			$res.="|$stipend|$no_stipend|$sdu_grant|$state_grant|$paid|";
 			echo $res;
 		}
+
+		elseif ($function == "search_adviser"){
+
+			$session_id = $_REQUEST['session_id'];
+			
+			$name = $_REQUEST['search_name'];
+			$surname = $_REQUEST['search_surname'];
+			$gender = $_REQUEST['search_gender'];
+				
+			$address_type = $_REQUEST['search_address_type'];
+			$republic = $_REQUEST['search_republic'];
+			$region = $_REQUEST['search_region'];
+			$city = $_REQUEST['search_city'];
+				
+			$sdu_id = $_REQUEST['search_sdu_id'];
+			$grant_type = $_REQUEST['search_grant_type'];
+			$stipend = $_REQUEST['search_stipend'];
+			$min_gpa = $_REQUEST['search_min_gpa'];
+			$max_gpa = $_REQUEST['search_max_gpa'];
+				
+			$isNothing = false;
+				
+			if(
+					($sdu_id == "" &&
+							$grant_type == "" &&
+							$stipend == "" &&
+							$min_gpa == 0 &&
+							$max_gpa == 4) &&
+					($republic == 0 &&
+							$region == 0 &&
+							$city == 0) &&
+					($name == "" &&
+							$surname == "" &&
+							$gender == "")) {
+			
+					$isNothing = true;
+			
+			}
+			
+			$subquery = " and si.group_id in (";
+			$qqq = mysql_query("select ag.* from adviser_group as ag, adviser as ad
+								 where ad.email = '$session_id' and ad.id = ag.adviser_id");
+			$nnn = mysql_num_rows($qqq);
+			$i = 1;
+			while($ttt = mysql_fetch_array($qqq)){
+				$subquery .= "'".$ttt['group_id']."'";
+				if($i < $nnn){
+					$subquery .= " , ";
+				}
+				$i++;
+			}
+			$subquery .= " ) and st.sdu_info_id = si.id ";
+			
+			if($address_type == "home"){
+				$query = "select distinct st.id, st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id and si.gpa between $min_gpa and $max_gpa ".$subquery." ";
+			}
+			else{
+				$query = "select distinct st.id, st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id and si.gpa between $min_gpa and $max_gpa ".$subquery." ";
+			}
+		
+			if($name != ""){
+					$query .= " and st.name_en like '%$name%' ";
+			}
+		
+			if ($surname != ""){
+				if($query != "select distinct st.id, st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id and si.gpa between $min_gpa and $max_gpa ".$subquery." " ||
+						$query != "select distinct st.id, st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id and si.gpa between $min_gpa and $max_gpa ".$subquery." "){
+						$query .= " and ";
+					}
+				$query .= " st.surname_en like '%$surname%' ";
+			}
+		
+			if ($gender != ""){
+				if($query != "select distinct st.id, st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id and si.gpa between $min_gpa and $max_gpa ".$subquery." " ||
+					$query != "select distinct st.id, st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id and si.gpa between $min_gpa and $max_gpa ".$subquery." "){
+					$query .= " and ";
+				}
+				$query .= " gender = '$gender' ";
+			}
+		
+			if($sdu_id != ""){
+				if($query != "select distinct st.id, st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id and si.gpa between $min_gpa and $max_gpa ".$subquery." " ||
+					$query != "select distinct st.id, st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id and si.gpa between $min_gpa and $max_gpa ".$subquery." "){
+					$query .= " and ";
+				}
+				$query .= " si.sdu_id like '%$sdu_id%' ";
+			}
+		
+			
+			if($grant_type != ""){
+				if($query != "select distinct st.id, st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id and si.gpa between $min_gpa and $max_gpa ".$subquery." " ||
+					$query != "select distinct st.id, st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id and si.gpa between $min_gpa and $max_gpa ".$subquery." "){
+					$query .= " and ";
+				}
+				$query .= " si.grant_type = '$grant_type' ";
+			}
+		
+			if($stipend != ""){
+				if($query != "select distinct st.id, st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id and si.gpa between $min_gpa and $max_gpa ".$subquery." " ||
+					$query != "select distinct st.id, st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id and si.gpa between $min_gpa and $max_gpa ".$subquery." "){
+					$query .= " and ";
+				}
+				$query .= " si.stipend = '$stipend' ";
+			}
+		
+			if($republic != 0){
+				if($query != "select distinct st.id, st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id and si.gpa between $min_gpa and $max_gpa ".$subquery." " ||
+					$query != "select distinct st.id, st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id and si.gpa between $min_gpa and $max_gpa ".$subquery." "){
+					$query .= " and ";
+				}
+				$query .= " ad.republic_id = '$republic' ";
+			}
+		
+			if($region != 0){
+				if($query != "select distinct st.id, st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id and si.gpa between $min_gpa and $max_gpa ".$subquery." " ||
+					$query != "select distinct st.id, st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id and si.gpa between $min_gpa and $max_gpa ".$subquery." "){
+					$query .= " and ";
+				}
+				$query .= " ad.region_id = '$region' ";
+			}
+		
+			if($city != 0){
+				if($query != "select distinct st.id, st.* from student as st, address as ad, sdu_info as si where st.home_address_id = ad.id and si.gpa between $min_gpa and $max_gpa ".$subquery." " ||
+					$query != "select distinct st.id, st.* from student as st, address as ad, sdu_info as si where st.current_address_id = ad.id and si.gpa between $min_gpa and $max_gpa ".$subquery." "){
+					$query .= " and ";
+				}
+				$query .= " ad.city_id = '$city' ";
+			}
+		
+								
+								
+			if($isNothing == false){
+				$q = mysql_query($query);
+				$q_n = mysql_num_rows($q);
+		
+				if($q_n > 0){
+					echo "$query|";
+					echo "<table class='table table-hover table-condensed table-bordered'>";
+					echo "<thead>
+							<tr>
+								<th>#</th>
+								<th>Name & Surname</th>
+								<th>Gender</th>
+								<th>Birthday</th>
+								<th>SDU ID</th>
+								<th>SDU Info</th>
+								<th>Contact Info</th>
+								<th>Home Address</th>
+								<th>Current Address</th>
+							</tr>
+						</thead>
+						<tbody>";
+						$i = 1;
+					while($a = mysql_fetch_array($q)){
+							echo "<tr>";
+							echo "<td>$i</td>
+								<td>$a[name_en] $a[surname_en]</td>
+								<td>$a[gender]</td>";
+								$birthd = date(  "F j, Y", strtotime( $a['birthday'] ) );
+							echo "<td>$birthd</td>";
+				
+							$q1 = mysql_query("select * from sdu_info where id = '$a[sdu_info_id]'");
+							$a1 = mysql_fetch_array($q1);
+							echo "<td>$a1[sdu_id]</td>";
+							$q2 = mysql_query("select * from faculty where id = '$a1[faculty_id]'");
+							$a2 = mysql_fetch_array($q2);
+							$sdu_information = "$a2[name]<br/>";
+							$q2 = mysql_query("select * from department where id = '$a1[department_id]'");
+							$a2 = mysql_fetch_array($q2);
+							$sdu_information .= "$a2[name]<br/>";
+							$q2 = mysql_query("select * from `group` where id = '$a1[group_id]'");
+							$a2 = mysql_fetch_array($q2);
+							$sdu_information .= "<strong>Group: </strong>$a2[name]<br/>";
+							$sdu_information .= "<strong>Grant type: </strong>$a1[grant_type]<br/>";
+							$sdu_information .= "<strong>Stipend: </strong>$a1[stipend]";
+							echo "<td>$sdu_information</td>";
+							echo "<td>$a[email]<br/>$a[phone_no]</td>";
+				
+							$q2 = mysql_query("select rep.name as 'repname', c.name as 'cname', reg.name as 'regname', ad.addr as 'addr', ad.home_no as 'homeno' from address as ad, republic as rep, city as c, region as reg where ad.id = '$a[home_address_id]' and rep.id = ad.republic_id and c.id = ad.city_id and reg.id = ad.region_id");
+							$a2 = mysql_fetch_array($q2);
+							echo "<td>$a2[repname],<br/>$a2[regname],<br/>$a2[cname],<br/>$a2[addr] $a2[homeno]</td>";
+							$q2 = mysql_query("select rep.name as 'repname', c.name as 'cname', reg.name as 'regname', ad.addr as 'addr', ad.home_no as 'homeno' from address as ad, republic as rep, city as c, region as reg where ad.id = '$a[current_address_id]' and rep.id = ad.republic_id and c.id = ad.city_id and reg.id = ad.region_id");
+							$a2 = mysql_fetch_array($q2);
+								
+							echo "<td>$a2[repname],<br/>$a2[regname],<br/>$a2[cname],<br/>$a2[addr] $a2[homeno]</td>";
+						$i++;
+					}
+				}
+			}
+			else{
+				echo "no data found php";
+			}
+		}
 		
 		elseif ($function == "search"){
 			
