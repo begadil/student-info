@@ -316,42 +316,53 @@
 		function get_pdf(){
 			var isOk = false;
 			var requiredList = "";
+			var count = 0;
 			if($('#chc_fullname').is(':checked')) {
 				isOk = true; 
 				requiredList += 'fullname|';
+				count++;
 			}
 			if($('#chc_gender').is(':checked')) {
 				isOk = true;
 				requiredList += 'gender|';
+				count++;
 			}
 			if($('#chc_birthday').is(':checked')) {
 				isOk = true;
 				requiredList += 'birthday|';
+				count++;
 			}
 			if($('#chc_sdu_id').is(':checked')) {
 				isOk = true;
 				requiredList += 'sdu_id|';
+				count++;
 			}
 			if($('#chc_sdu_info').is(':checked')) {
 				isOk = true;
 				requiredList += 'sdu_info|';
+				count++;
 			}
 			if($('#chc_contact_info').is(':checked')) {
 				isOk = true;
 				requiredList += 'contact_info|';
+				count++;
 			}
 			if($('#chc_home_address').is(':checked')) {
 				isOk = true;
 				requiredList += 'home_address|';
+				count++;
 			}
 			if($('#chc_current_address').is(':checked')) {
 				isOk = true;
 				requiredList += 'current_address|';
+				count++;
 			}
 			if($('#chc_family_info').is(':checked')) {
 				isOk = true;
 				requiredList += 'family_info';
+				count++;
 			}
+			requiredList = count + "|" + requiredList;
 			if(isOk == true){
 				window.open("get_pdf.php?query="+ QUERY +"&required_list="+ requiredList +"", '_blank');
 			}
